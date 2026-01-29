@@ -1,0 +1,98 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+    ADMIN
+    USER
+}
+
+model User {
+    id         Int         @id
+    surname    String
+    name       String
+    patronymic String?
+    role       UserRole
+    basket     UserBasket?
+}
+
+model UserBasket {
+    id Int @id
+
+    userId Int  @unique
+    user   User @relation(fields: [userId], references: [id])
+
+    items    BasketItem[]
+    products Product[]
+}
+
+model BasketItem {
+    id Int @id
+
+    basketId Int
+    basket   UserBasket @relation(fields: [basketId], references: [id])
+
+    productId Int
+    product   Product @relation(fields: [productId], references: [id])
+}
+
+model Category {
+    id       Int       @id
+    title    String    @unique
+    products Product[]
+}
+
+model Product {
+    id          Int    @id
+    title       String
+    description String
+    imageUrl    String
+    price       Int
+    rating      Int
+
+    categoryId Int
+    category   Category @relation(fields: [categoryId], references: [id])
+
+    basketItems BasketItem[]
+
+    sizes        SizeOption[]
+    types        TypeOption[]
+    ingredients  Ingredients[]
+    userBasket   UserBasket?   @relation(fields: [userBasketId], references: [id])
+    userBasketId Int?
+}
+
+model Ingredients {
+    id        Int      @id
+    img       String
+    title     String
+    price     Int
+    product   Product? @relation(fields: [productId], references: [id])
+    productId Int?
+}
+
+model TypeOption {
+    id        Int     @id
+    type      String
+    price     Int?
+    product   Product @relation(fields: [productId], references: [id])
+    productId Int
+}
+
+model SizeOption {
+    id        Int     @id
+    size      Int
+    price     Int?
+    product   Product @relation(fields: [productId], references: [id])
+    productId Int
+}
+
+model Filters {
+    id    Int    @id
+    title String
+}

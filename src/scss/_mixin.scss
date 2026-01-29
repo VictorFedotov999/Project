@@ -1,0 +1,107 @@
+@mixin TextProductCategorie {
+    font-size: 16px;
+    font-weight: 700;
+    color: $--black-color;
+}
+@mixin flex-center {
+    display: flex;
+    align-items: center;
+}
+
+@mixin flex-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+@mixin flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+@mixin button-orange {
+    background-color: $--orange-color;
+    color: #fff;
+    font-weight: 700;
+    border-radius: 15px;
+    cursor: pointer;
+    border: 1px solid $--orange-color;
+
+    &:hover {
+        background-color: #fff;
+        color: $--orange-color;
+        transition: all 0.3s;
+    }
+}
+
+@mixin button-outline-orange {
+    border: 1px solid $--orange-color;
+    color: $--orange-color;
+    background-color: transparent;
+    border-radius: 15px;
+    cursor: pointer;
+
+    &:hover {
+        background-color: $--orange-color;
+        color: #fff;
+        transition: all 0.3s;
+    }
+}
+
+@mixin shadow-box {
+    box-shadow:
+        0 3px 8px rgba(254, 95, 0, 0.08),
+        0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+@mixin section-padding {
+    margin-bottom: 100px;
+}
+
+@mixin checkbox-styles {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+@mixin checkbox-label {
+    cursor: pointer;
+    font-size: 16px;
+    color: #333;
+    transition: color 0.3s ease;
+    position: relative;
+    padding-right: 10px;
+    display: inline-block;
+    line-height: 24px;
+}
+
+@mixin checkbox-before {
+    content: '';
+    position: absolute;
+    left: -35px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 24px;
+    height: 24px;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    background-color: white;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+@mixin checkbox-after {
+    content: '';
+    position: absolute;
+    left: -28px;
+    top: 50%;
+    transform: translateY(-60%) rotate(45deg);
+    width: 8px;
+    height: 13px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
