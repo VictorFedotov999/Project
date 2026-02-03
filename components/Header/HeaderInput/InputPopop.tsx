@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import Link from 'next/link';
 const InputPopop = ({ products, setFocused }) => {
     return (
@@ -16,7 +15,7 @@ const InputPopop = ({ products, setFocused }) => {
                                     height={30}
                                 />
                                 <h3 className='header__popup__item-title'>{product.title}</h3>
-                                <h3 className='header__popup__item-price'>{product.price}</h3>
+                                <h3 className='header__popup__item-price'>{product.price} ₽</h3>
                             </div>
                         </Link>
                     ))}

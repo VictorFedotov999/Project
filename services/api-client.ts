@@ -1,5 +1,7 @@
 import * as products from './searchProducts';
+import * as category from './productCategory';
 
 export const Api = {
-    products: products.search,
+    SearchProduct: products.search,
+    CategoryProduct: category.category,
 };

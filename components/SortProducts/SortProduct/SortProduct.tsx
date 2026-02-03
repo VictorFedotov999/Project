@@ -1,21 +1,35 @@
 'use client';
+
 import React from 'react';
 
 import { SortProductSvg } from './SortProductSvg';
 import { useClickAway } from 'react-use';
+import { getSorts } from '../../../services/sorts';
+import { useRouter, useSearchParams } from 'next/navigation';
 
-export const SortProduct = () => {
-    const sorts = ['рейтингу', 'цене', 'алфавиту'];
+type PropsType = {};
+
+type SortType = {
+    id: number;
+    title: string;
+};
+
+export const SortProduct: React.FC<PropsType> = () => {
+    const [sorts, setSorts] = React.useState<SortType[]>([]);
+    const [activeSort, setActiveSort] = React.useState('Рейтинг');
+
     const [OpenSortPopup, setOpenSortPopup] = React.useState(false);
-    const [activeSort, setActiveSort] = React.useState(0);
 
     const onClickPopup = () => {
         setOpenSortPopup(true);
     };
-    //
-    const onClickSort = (index: number) => {
-        setActiveSort(index);
+    const searchParams = useSearchParams();
+    const currentCategory = searchParams.get('category') || '0';
+
+    const onClickSort = (sort: string) => {
+        setActiveSort(sort);
         setOpenSortPopup(false);
+        router.push(`/?category=${currentCategory}&sort=${sort}`);
     };
 
     const ref = React.useRef(null);
@@ -23,36 +37,45 @@ export const SortProduct = () => {
         setOpenSortPopup(false);
     });
 
+    React.useEffect(() => {
+        getSorts().then((data) => setSorts(data));
+    }, []);
+
+    const router = useRouter();
     return (
         <>
             <div className='sort__inner' ref={ref}>
                 <SortProductSvg />
 
-                <p className='sort__title:'>Сортировка:</p>
-                <p className='sort__text' onClick={() => onClickPopup()}>
-                    {sorts[activeSort]}
+                <p className='sort__title:' onClick={() => onClickPopup()}>
+                    Сортировка:
                 </p>
+                <p className='sort__text' onClick={() => onClickPopup()}>
+                    {activeSort}
+                </p>
+
                 <div
                     className={
-                        OpenSortPopup ? ' header__sort__popup active' : ' header__sort__popup'
+                        OpenSortPopup ? ' header__sort__popup active' : ' header__sort__popup '
                     }
                 >
-                    {sorts.map((typeSort, index) => (
-                        <h3
-                            key={`${typeSort}`}
-                            onClick={() => onClickSort(index)}
-                            className={
-                                activeSort === index
-                                    ? 'header__profile_popup-text active'
-                                    : 'header__profile_popup-text'
-                            }
-                        >
-                            {typeSort}
-                        </h3>
+                    {sorts.map((sort: SortType, index: number) => (
+                        <div>
+                            <h3
+                                key={sort.id}
+                                onClick={() => onClickSort(sort.title)}
+                                className={
+                                    activeSort === sort.title
+                                        ? 'header__profile_popup-text active'
+                                        : 'header__profile_popup-text '
+                                }
+                            >
+                                {sort.title}
+                            </h3>
+                        </div>
                     ))}
                 </div>
             </div>
         </>
     );
 };
-// 'header__profile_popup-text active'

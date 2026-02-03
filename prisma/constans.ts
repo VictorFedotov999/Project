@@ -28,6 +28,8 @@ export const filters = [
     },
 ];
 
+export const sorting = [{ title: 'Рейтинг' }, { title: 'Цене' }, { title: 'Алфавиту' }];
+
 export const product = [
     {
         title: 'Масала',
@@ -37,6 +39,7 @@ export const product = [
 
         rating: 4,
         categoryId: 1,
+        price: 345,
     },
     {
         title: 'Пицца с хреном ',
@@ -46,6 +49,7 @@ export const product = [
 
         rating: 2,
         categoryId: 1,
+        price: 325,
     },
     {
         title: 'Мясная',
@@ -55,6 +59,7 @@ export const product = [
 
         rating: 6,
         categoryId: 1,
+        price: 450,
     },
     {
         title: 'Ветчина и грибы',
@@ -63,6 +68,7 @@ export const product = [
 
         rating: 6,
         categoryId: 1,
+        price: 325,
     },
     {
         title: 'Аррива!',
@@ -72,6 +78,7 @@ export const product = [
 
         rating: 6,
         categoryId: 1,
+        price: 550,
     },
     {
         title: 'Креветски со сладким чили',
@@ -81,6 +88,7 @@ export const product = [
 
         rating: 6,
         categoryId: 1,
+        price: 325,
     },
     {
         title: 'Карбонара',
@@ -90,6 +98,7 @@ export const product = [
 
         rating: 6,
         categoryId: 1,
+        price: 235,
     },
     {
         title: 'Жюльен',
@@ -99,6 +108,7 @@ export const product = [
 
         rating: 6,
         categoryId: 1,
+        price: 395,
     },
     {
         title: 'Песто',
@@ -108,6 +118,7 @@ export const product = [
 
         rating: 6,
         categoryId: 1,
+        price: 400,
     },
     {
         title: 'Бургер-пицца',
@@ -117,6 +128,7 @@ export const product = [
 
         rating: 6,
         categoryId: 1,
+        price: 635,
     },
     {
         title: 'Сырный цыпленок',
@@ -126,6 +138,7 @@ export const product = [
 
         rating: 6,
         categoryId: 1,
+        price: 335,
     },
     {
         title: 'Пепперони',
@@ -134,6 +147,7 @@ export const product = [
 
         rating: 6,
         categoryId: 1,
+        price: 235,
     },
 ];
 

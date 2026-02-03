@@ -1,9 +1,13 @@
-import { categories, product, ingredients, filters } from './constans';
+import { categories, product, ingredients, filters, sorting } from './constans';
 import { prisma } from './prisma-client';
 
 async function seed() {
     await prisma.category.createMany({
         data: categories,
+    });
+
+    await prisma.sorting.createMany({
+        data: sorting,
     });
 
     await prisma.filter.createMany({

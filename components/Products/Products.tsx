@@ -1,29 +1,39 @@
-import { Product } from './Product/Product';
+'use client';
 import React from 'react';
+import { ProductItem } from './Product/Product';
+import { Api } from '../../services/api-client';
+import { useSearchParams } from 'next/navigation';
+import { Product } from '@prisma/client';
 
-// import { getProducts } from '../../services/prod';
-import { prisma } from '../../prisma/prisma-client';
+export const Products = () => {
+    const searchParams = useSearchParams();
+    const sort = String(searchParams.get('sort')) || 'Рейтинг';
+    const category = Number(searchParams.get('category'));
+    const ingredients = String(searchParams.get('ingredients'));
 
-export const Products = async () => {
-    // const [products, setProducts] = React.useState([]);
-    // React.useEffect(() => {
-    //     getProducts().then((res) => setProducts(res));
-    // }, []);
+    const [products, setProducts] = React.useState<Product[]>([]);
 
-    // console.log(products);
+    React.useEffect(() => {
+        Api.CategoryProduct(String(category || ''), sort, String(ingredients || null)).then(
+            (item) => setProducts(item),
+        );
+    }, [category, sort, ingredients]);
 
-    const products = await prisma.product.findMany({});
+    if (products.length === 0) {
+        return 'Ничего не найдено';
+    }
 
     return (
         <>
             <div className='items'>
                 {products.map((product, index) => (
-                    <Product
+                    <ProductItem
                         key={`${product.title} + ${index}`}
                         title={product.title}
                         description={product.description}
                         imageUrl={product.imageUrl}
                         id={product.id}
+                        price={product.price}
                     />
                 ))}
             </div>

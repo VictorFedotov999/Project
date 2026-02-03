@@ -45,20 +45,19 @@ model BasketItem {
 }
 
 model Product {
-    id          Int    @id @default(autoincrement())
+    id          Int      @id @default(autoincrement())
     title       String
     description String
     imageUrl    String
     rating      Int
-
-    categoryId Int
-    category   Category @relation(fields: [categoryId], references: [id])
+    price       Int
+    categoryId  Int
+    category    Category @relation(fields: [categoryId], references: [id])
 
     BasketItems BasketItem[]
-
-    sizeOption SizeOption[]
-    typeOption TypeOption[]
-    ingredient Ingredient[]
+    sizeOption  SizeOption[]
+    typeOption  TypeOption[]
+    ingredient  Ingredient[]
 }
 
 model Ingredient {
@@ -96,8 +95,12 @@ model Category {
     products Product[]
 }
 
-model Filter {
-    id Int @id @default(autoincrement())
+model Sorting {
+    id    Int    @id @default(autoincrement())
+    title String @unique
+}
 
+model Filter {
+    id    Int    @id @default(autoincrement())
     title String
 }

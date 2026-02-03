@@ -6,8 +6,9 @@ import InputPopop from './InputPopop';
 import { Api } from '../../../services/api-client';
 import { Product } from '@prisma/client';
 import { debounce } from 'lodash';
+
 export const HeaderInput = () => {
-    const [searchQuery, setSearQuery] = React.useState('');
+    const [searchQuery, setSearQuery] = React.useState<string>('');
     const [focused, setFocused] = React.useState(false);
     const [products, setProducts] = React.useState<Product[]>([]);
     const ref = React.useRef(null);
@@ -21,15 +22,9 @@ export const HeaderInput = () => {
         setSearQuery('');
     };
 
-    // React.useEffect(() => {
-    //     debounce(() => {
-    //         Api.products(searchQuery).then((item) => setProducts(item));
-    //     });
-    // }, [searchQuery]);
-
     const fetchProducts = React.useCallback(
         debounce(async (query: string) => {
-            const data = await Api.products(query);
+            const data = await Api.SearchProduct(query);
             setProducts(data);
         }, 500),
         [],

@@ -7,9 +7,10 @@ type Props = {
     title: string;
     description: string;
     imageUrl: string;
+    price: number;
 };
 
-export const Product = ({ id, title, description, imageUrl }: Props) => {
+export const ProductItem = ({ id, title, description, imageUrl, price }: Props) => {
     return (
         <Link href={`/prods/${id}`}>
             <div className='item active-setting'>
@@ -19,7 +20,7 @@ export const Product = ({ id, title, description, imageUrl }: Props) => {
                 <p className='item-text'>{description}</p>
                 <div className='item-bottom'>
                     <p className='item-price'>
-                        от <span className='item-price_bold'> 340 ₽</span>
+                        от <span className='item-price_bold'> {price} ₽</span>
                     </p>
                     <ProductBtnConfigurate />
                 </div>

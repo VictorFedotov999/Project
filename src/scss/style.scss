@@ -250,8 +250,9 @@ a {
         cursor: pointer;
 
         &.active {
-            background-color: #e1dddd4a;
+            background-color: #e1dddd41;
             border-radius: 15px;
+            color: $--orange-color;
         }
     }
 }
