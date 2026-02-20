@@ -6,11 +6,11 @@ import { TypeOption } from '@prisma/client';
 type PropsType = {
     types: TypeOption[];
     typeOptions: TypeOption[];
+    typeActive: number;
+    setTypeActive: (index: number) => void;
 };
 
-const ItemType = ({ types, typeOptions }: PropsType) => {
-    const [typeActive, setTypeActive] = React.useState(0);
-
+const ItemType = ({ types, typeOptions, typeActive, setTypeActive }: PropsType) => {
     const onClickType = (index: number, isDisabled: boolean) => {
         if (isDisabled) return;
         setTypeActive(index);

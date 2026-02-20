@@ -1,16 +1,13 @@
 'use client';
-
-import React from 'react';
-
 import { Ingredient } from '@prisma/client';
 
 type PropsType = {
     ingredients: Ingredient[];
+    igredientActive: Number;
+    setIgredientActive: (index: number) => void;
 };
 
-const ItemIgredients = ({ ingredients }: PropsType) => {
-    const [igredientActive, setIgredientActive] = React.useState(0);
-
+const ItemIgredients = ({ ingredients, igredientActive, setIgredientActive }: PropsType) => {
     const onClickIgredient = (index: number) => {
         setIgredientActive(index);
     };

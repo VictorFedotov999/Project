@@ -6,14 +6,14 @@ import { SizeOption } from '@prisma/client';
 type PropsType = {
     sizes: SizeOption[];
     sizeOptions: SizeOption[];
+    sizeActive: number;
+    setSizeAcitve: (index: number) => void;
 };
 
-const ItemSizes = ({ sizes, sizeOptions }: PropsType) => {
-    const [sizeActive, setSize] = React.useState(0);
-
+const ItemSizes = ({ sizes, sizeOptions, sizeActive, setSizeAcitve }: PropsType) => {
     const onClickSize = (index: number, isDisabled: boolean) => {
         if (isDisabled) return;
-        setSize(index);
+        setSizeAcitve(index);
     };
 
     return (

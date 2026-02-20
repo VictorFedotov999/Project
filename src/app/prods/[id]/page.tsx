@@ -1,9 +1,4 @@
-import ItemButton from '../../../../components/ProductPage/ItemButton/ItemButton';
-import ItemIgredients from '../../../../components/ProductPage/ItemIgredients/ItemIgredients';
-import ItemImg from '../../../../components/ProductPage/ItemImg/ItemImg';
-import ItemSizes from '../../../../components/ProductPage/ItemSizes/ItemSizes';
-import ItemTitle from '../../../../components/ProductPage/ItemTitle/ItemTitle';
-import ItemType from '../../../../components/ProductPage/ItemType/ItemType';
+import { ProductInfo } from '../../../../components/ProductPage/ProductInfo/ProductInfo';
 import { prisma } from '../../../../prisma/prisma-client';
 
 type PropsType = {
@@ -42,26 +37,19 @@ const ProductPage = async ({ params }: PropsType) => {
     const sizes = product.sizeOption;
     const types = product.typeOption;
     const ingredients = product.ingredient;
-    console.log(sizes, sizeOptions);
 
     return (
         <section className='product'>
             <div className='container'>
                 <div className='product__inner'>
-                    <ItemImg product={product} />
-
-                    <div className='product__info'>
-                        <ItemTitle product={product} />
-                        <p className='product__info-text'>25 см, традиционное тесто 25, 380 г</p>
-
-                        <ItemSizes sizes={sizes} sizeOptions={sizeOptions} />
-
-                        <ItemType types={types} typeOptions={typeOptions} />
-
-                        <ItemIgredients ingredients={ingredients} />
-
-                        <ItemButton productId={productId} />
-                    </div>
+                    <ProductInfo
+                        product={product}
+                        sizes={sizes}
+                        sizeOptions={sizeOptions}
+                        types={types}
+                        typeOptions={typeOptions}
+                        ingredients={ingredients}
+                    />
                 </div>
             </div>
         </section>

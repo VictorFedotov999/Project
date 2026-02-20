@@ -12,7 +12,7 @@ export const BasketProducts = ({ productsClient }: PropsType) => {
             <div className='basket__content'>
                 <div className='basket__items'>
                     {productsClient.map((product: any) => (
-                        <BasketProduct key={product.id} product={product.product} />
+                        <BasketProduct key={product.id} product={product} />
                     ))}
                 </div>
             </div>

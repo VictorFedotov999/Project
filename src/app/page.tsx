@@ -10,7 +10,7 @@ export default function Home() {
 
                 <section className='products'>
                     <div className='container'>
-                        <div className='products__inner'>
+                        <div className='products__inner  '>
                             <FilterProducts />
                             <Products />
                         </div>

@@ -1,3 +1,4 @@
+@import 'tailwindcss';
 @import 'vars';
 @import 'mixin';
 @import 'fonts';
@@ -5,10 +6,6 @@
 @import 'reset';
 @import 'libs';
 @import 'media';
-
-// .black--font {
-//     background-color: black;
-// }
 
 a {
     text-decoration: none;
@@ -680,7 +677,6 @@ a {
 //     display: none;
 // }
 .basket__item-empty {
-    display: none;
 }
 .order {
     .title {

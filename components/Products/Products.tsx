@@ -25,7 +25,7 @@ export const Products = () => {
     }
 
     return (
-        <div className='items'>
+        <div className='items '>
             {products.map((product, index) => (
                 <ProductItem
                     key={product.id}

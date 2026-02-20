@@ -1,15 +1,16 @@
 import { BasketInfoBtnClouse } from './BasketInfoBtnClouse';
 
-type PropsType = {
+interface IProps {
     onClickBasket: (open: boolean) => void;
-};
+    productsCount: number;
+}
 
-export const BasketInfo = ({ onClickBasket }: PropsType) => {
+export const BasketInfo = ({ onClickBasket, productsCount }: IProps) => {
     return (
         <>
             <div className='basket__top'>
                 <h3 className='basket__count'>
-                    В корзине <span>3 товара</span>
+                    В корзине <span>{productsCount} товара</span>
                 </h3>
                 <div onClick={() => onClickBasket(false)}>
                     <BasketInfoBtnClouse />

@@ -1,24 +1,13 @@
-'use client';
 import axios from 'axios';
 
-const ItemButton = ({ productId }) => {
-    const addToBasket = () => {
-        try {
-            axios.post('/api/productss', {
-                userId: 1,
-                productId: 1,
-            });
+interface IProps {
+    price: number;
+}
 
-            alert('Товар добавлен в корзину');
-        } catch (e) {
-            console.error(e);
-        }
-    };
+const ItemButton = ({ price }: IProps) => {
     return (
         <>
-            <div onClick={addToBasket}>
-                <button className='product__btn'>Добавить в корзину за 799₽</button>
-            </div>
+            <button className='product__btn'>Добавить в корзину за {price}₽</button>
         </>
     );
 };

@@ -5,10 +5,6 @@ type PropsType = {
 };
 
 const ItemTitle = ({ product }: PropsType) => {
-    if (!product) {
-        <>ffff</>;
-    }
-
     return (
         <>
             <h1 className='product__info-title'>{product.title}</h1>
