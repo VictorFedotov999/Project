@@ -1,18 +1,18 @@
 'use client';
 
 import React from 'react';
-import { useClickAway } from 'react-use';
+
 import InputPopop from './InputPopop';
 import { Api } from '../../../services/api-client';
 import { debounce } from 'lodash';
-import { IProduct } from '../../../sharedType/type';
+import { useClickAway } from 'react-use';
+import { ProductIdType } from '../../../prisma/prismaType';
 
 export const HeaderInput = () => {
     const [searchQuery, setSearQuery] = React.useState<string>('');
     const [focused, setFocused] = React.useState<boolean>(false);
-    const [products, setProducts] = React.useState<IProduct[]>([]);
+    const [products, setProducts] = React.useState<ProductIdType[]>([]);
     const ref = React.useRef(null);
-    console.log(products, 'ffffffffff');
 
     useClickAway(ref, () => {
         setFocused(false);
@@ -24,7 +24,7 @@ export const HeaderInput = () => {
 
     const fetchProducts = React.useCallback(
         debounce(async (query: string) => {
-            const data = await Api.SearchProduct(query);
+            const data = await Api.searchProduct(query);
             setProducts(data);
         }, 500),
         [],

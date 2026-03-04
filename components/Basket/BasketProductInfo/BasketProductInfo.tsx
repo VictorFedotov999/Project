@@ -9,7 +9,8 @@ export const BasketProductInfo = ({ product }: IProps) => {
         <>
             <h1 className='basket__item__info-title'>{product.title}</h1>
             <p className='basket__item__info-text'>
-                {product.pizzaSize}см,{product.pizzaType}
+                {product.pizzaSize}см, {product.pizzaType}
+                {product.ingredients.map((item) => item.title)}
             </p>
         </>
     );

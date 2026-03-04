@@ -12,7 +12,7 @@ export const getTypes = async () => {
 };
 
 export const getSizes = async () => {
-    const { data } = await axionsInstatce.get<[SizeOption]>(API_PRODUCT_SIZES);
+    const { data } = await axionsInstatce.get<SizeOption[]>(API_PRODUCT_SIZES);
     return data;
 };
 

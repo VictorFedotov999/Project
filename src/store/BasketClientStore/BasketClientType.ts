@@ -3,6 +3,9 @@ import { Ingredient, Product, SizeOption, TypeOption, UserBasket } from '@prisma
 
 export interface IActions {
     fetchCartItems: () => void;
+    addCartItem: (value: { productItemId: number; quantity: number }) => void;
+    removeCartItem: (productId: number) => void;
+    increaseCartItem: (productId: number, count: number) => void;
 }
 
 export interface IInitialState {
@@ -27,8 +30,8 @@ export interface IBasketItemsStore {
     imageUrl: string;
     price: number;
     pizzaSize?: number | null;
-    pizzaType?: number | null;
-    ingredients: Array<{ name: string; price: number }>;
+    pizzaType?: string | null;
+    ingredients: Array<{ title: string; price: number }>;
 }
 
 //продукт с полями

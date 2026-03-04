@@ -1,3 +1,4 @@
+import { useStoreProductCount } from '@/store/BasketClientStore/BasketClientSelectors';
 import { BasketInfoBtnClouse } from './BasketInfoBtnClouse';
 
 interface IProps {
@@ -5,11 +6,12 @@ interface IProps {
 }
 
 export const BasketInfo = ({ onClickBasket }: IProps) => {
+    const productCount = useStoreProductCount();
     return (
         <>
             <div className='basket__top'>
                 <h3 className='basket__count'>
-                    В корзине <span>{} товара</span>
+                    В корзине <span>{productCount} товара</span>
                 </h3>
                 <div onClick={() => onClickBasket(false)}>
                     <BasketInfoBtnClouse />

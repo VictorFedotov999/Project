@@ -8,43 +8,40 @@ import ItemSizes from '../ItemSizes/ItemSizes';
 import ItemTitle from '../ItemTitle/ItemTitle';
 import ItemType from '../ItemType/ItemType';
 
-import { SizeOption, TypeOption, Ingredient } from '@prisma/client';
-import { IProduct } from '@/store/BasketClientStore/BasketClientType';
+import { Ingredient, Product, SizeOption, TypeOption } from '@prisma/client';
+import { ProductIdType } from '../../../prisma/prismaType';
+import { useProductBasketClientStore } from '@/store/BasketClientStore/BasketClientStore';
 
 interface IProductInfo {
-    product: IProduct;
-    sizes: SizeOption[];
+    product: ProductIdType;
     sizeOptions: SizeOption[];
-    types: TypeOption[];
     typeOptions: TypeOption[];
-    ingredients: Ingredient[];
 }
 
-export const ProductInfo = ({
-    product,
-    sizes,
-    sizeOptions,
-    types,
-    typeOptions,
-    ingredients,
-}: IProductInfo) => {
+export const ProductInfo = ({ product, sizeOptions, typeOptions }: IProductInfo) => {
+    const { addCartItem } = useProductBasketClientStore();
     const [sizeActive, setSizeAcitve] = React.useState(0);
     const [typeActive, setTypeActive] = React.useState(0);
     const [selectedIngredients, setSelectedIngredients] = React.useState<Ingredient[]>([]);
 
-    const sizeCurrent = sizes.map((size) => size.size);
-    const typeCurrent = types.map((type) => type.type);
+    const sizes = product.sizeOptions;
+    const types = product.typeOptions;
+    const ingredients = product.ingredients;
 
-    const onClickAddProduct = () => {
-        const addProduct = {
-            id: product.id,
-            title: product.title,
-            price: product.price,
-            ingredients: selectedIngredients,
-            pizzaSize: sizeCurrent[sizeActive],
-            pizzaType: typeCurrent[typeActive],
+    const selectedSize = sizeOptions.map((size) => size.id);
+    const selectedType = typeOptions.map((type) => type.id);
+    const selectedIngredientsId = selectedIngredients.map((ingredients) => ingredients.id);
+
+    const onAddProductToBasket = () => {
+        const newProduct = {
+            basketId: 1,
+
+            productId: product.id,
+            sizeOptionId: selectedSize[sizeActive],
+            typeOptionId: selectedType[typeActive],
+            ingredients: selectedIngredientsId,
         };
-        console.log(addProduct);
+        addCartItem(newProduct);
     };
 
     return (
@@ -75,7 +72,7 @@ export const ProductInfo = ({
                     setSelectedIngredients={setSelectedIngredients}
                 />
 
-                <div onClick={onClickAddProduct}>
+                <div onClick={onAddProductToBasket}>
                     <ItemButton price={product.price} />
                 </div>
             </div>

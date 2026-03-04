@@ -1,9 +1,9 @@
-import * as products from './searchProducts';
-import * as category from './filteringProduct';
-import * as basketProduct from './basketProductClient';
+import * as search from './searchProducts';
+import * as filter from './filteringProduct';
+import * as user from './basketUser';
 
 export const Api = {
-    SearchProduct: products.search,
-    CategoryProduct: category.category,
-    ProductClient: basketProduct.getBasketProductClient,
+    searchProduct: search.searchProduct,
+    filteringProducts: filter.filteringProduct,
+    userBasket: user.getBasketUser,
 };

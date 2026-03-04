@@ -1,5 +1,7 @@
+import { product } from './../../../../prisma/constans';
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '../../../../prisma/prisma-client';
+import { take } from 'lodash';
 
 export async function GET(req: NextRequest) {
     const queryParam = req.nextUrl.searchParams.get('query') || '';
@@ -8,7 +10,6 @@ export async function GET(req: NextRequest) {
     const ingredientsParam = req.nextUrl.searchParams.get('ingredients') || '';
     const sizeParam = req.nextUrl.searchParams.get('size') || '';
     const typeParam = req.nextUrl.searchParams.get('type') || '';
-    console.log('Filtering by ingredients:', ingredientsParam);
 
     const where: any = {};
     let orderBy: any = undefined;
@@ -20,10 +21,17 @@ export async function GET(req: NextRequest) {
         };
     }
 
+    if (Number(categoryParam) === 0) {
+        prisma.product.findMany();
+    } else {
+        where.categoryId = Number(categoryParam);
+    }
+
     if (typeParam) {
         const types = typeParam.split(',');
-        where.typeOption = {
-            every: {
+
+        where.typeOptions = {
+            some: {
                 type: { in: types },
             },
         };
@@ -31,27 +39,18 @@ export async function GET(req: NextRequest) {
 
     if (sizeParam) {
         const sizes = sizeParam.split(',').map(Number);
-        where.sizeOption = {
-            every: {
+        where.sizeOptions = {
+            some: {
                 size: { in: sizes },
             },
         };
     }
 
-    if (Number(categoryParam) !== 0) {
-        where.categoryId = Number(categoryParam);
-    }
-
     if (ingredientsParam) {
         const ingredientsTitle = ingredientsParam.split(',');
-        where.ingredient = {
-            every: {
+        where.ingredients = {
+            some: {
                 title: { in: ingredientsTitle },
-            },
-        };
-        where.AND = {
-            ingredient: {
-                some: {},
             },
         };
     }
@@ -67,24 +66,14 @@ export async function GET(req: NextRequest) {
     }
 
     const products = await prisma.product.findMany({
-        where: where,
-        orderBy,
+        where,
+        orderBy: sortMap[sort],
         include: {
-            typeOption: true,
-            sizeOption: true,
-            ingredient: true,
+            typeOptions: {},
+            sizeOptions: {},
+            ingredients: {},
         },
     });
 
     return NextResponse.json(products);
-}
-
-export async function POST(req: NextRequest) {
-    const data = await req.json();
-
-    const product = await prisma.product.create({
-        data,
-    });
-
-    return NextResponse.json(product);
 }

@@ -15,9 +15,9 @@ export const FilterSizeItem = ({ size, checked, onChange }: IProps) => {
                     onChange={onChange}
                     className='filter__type-text'
                     type='checkbox'
-                    id={`filterCheckbox${size.id}`}
+                    id={`filterCheckboxSize${size.id}`}
                 />
-                <label htmlFor={`filterCheckbox${size.id}`}>{size.size} см</label>
+                <label htmlFor={`filterCheckboxSize${size.id}`}>{size.size} см</label>
             </li>
         </>
     );

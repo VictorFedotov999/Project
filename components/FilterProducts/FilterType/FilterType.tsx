@@ -12,8 +12,9 @@ export const FilterType = () => {
     const router = useRouter();
     const searchParams = useSearchParams();
     const [types, setTypes] = React.useState<TypeOption[]>([]);
+
     const [selectedIds, setSelectedIds] = React.useState<string[]>([]);
-    const [isLoading, setIsLoading] = React.useState<Boolean>(true);
+    const [isLoading, setIsLoading] = React.useState<boolean>(true);
 
     React.useEffect(() => {
         setIsLoading(true);
@@ -22,7 +23,7 @@ export const FilterType = () => {
                 setTypes(data);
                 setIsLoading(false);
             })
-            .catch((error) => console.log(error)).finally;
+            .catch((error) => console.log(error));
     }, []);
 
     React.useEffect(() => {
@@ -34,7 +35,7 @@ export const FilterType = () => {
             params.delete('type');
         }
 
-        router.push(`/?${params.toString()}`);
+        router.replace(`/?${params.toString()}`);
     }, [selectedIds]);
 
     if (isLoading) {
@@ -50,9 +51,9 @@ export const FilterType = () => {
             <div className='filter__title'>Тип:</div>
             <div className='filter__type'>
                 <ul className='filter__type-items'>
-                    {types.map((type: TypeOption) => (
+                    {types.map((type) => (
                         <FilterTypeItem
-                            key={type.type}
+                            key={type.id}
                             type={type}
                             checked={selectedIds.includes(type.type)}
                             onChange={() => handleToggle(type)}

@@ -16,4 +16,4 @@ export const API_PRODUCT_INGREDIENTS = 'api/productIngredients';
 
 export const API_SORTING = '/api/sorting';
 
-export const API_BASKET_PRODUCT_CLIENT = '/api/basketProductClient';
+export const API_BASKET_USER = '/api/basketUser';

@@ -1,3 +1,4 @@
+import React from 'react';
 import { ProductInfo } from '../../../../components/ProductPage/ProductInfo/ProductInfo';
 import { prisma } from '../../../../prisma/prisma-client';
 
@@ -10,46 +11,33 @@ const ProductPage = async ({ params }: PropsType) => {
     const { id } = await params;
     const numericId = Number(id);
 
-    const sizeOptions = await prisma.sizeOption.findMany({
-        distinct: ['size'],
-        orderBy: {
-            size: 'asc',
-        },
-    });
+    const sizeOptions = await prisma.sizeOption.findMany();
 
-    const typeOptions = await prisma.typeOption.findMany({
-        distinct: ['type'],
-        orderBy: {
-            type: 'asc',
-        },
-    });
+    const typeOptions = await prisma.typeOption.findMany();
 
-    const product = await prisma.product.findUniqueOrThrow({
+    const products = await prisma.product.findMany({
         where: { id: numericId },
         include: {
-            sizeOption: true,
-            typeOption: true,
-            ingredient: true,
+            sizeOptions: {},
+            typeOptions: {},
+            ingredients: {},
         },
     });
-    console.log('Product со всеми нужными полями', product);
-    const productId = product.id;
-    const sizes = product.sizeOption;
-    const types = product.typeOption;
-    const ingredients = product.ingredient;
+
+    console.log(products);
 
     return (
         <section className='product'>
             <div className='container'>
                 <div className='product__inner'>
-                    <ProductInfo
-                        product={product}
-                        sizes={sizes}
-                        sizeOptions={sizeOptions}
-                        types={types}
-                        typeOptions={typeOptions}
-                        ingredients={ingredients}
-                    />
+                    {products.map((product) => (
+                        <ProductInfo
+                            key={product.id}
+                            product={product}
+                            sizeOptions={sizeOptions}
+                            typeOptions={typeOptions}
+                        />
+                    ))}
                 </div>
             </div>
         </section>

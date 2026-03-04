@@ -46,7 +46,7 @@ const ItemIgredients = ({
                             >
                                 <img
                                     className='product__info-igredient-img'
-                                    src={ingredient.img}
+                                    src={ingredient.image}
                                     alt=''
                                 />
                                 <h3 className='product__info-igredient-title'>

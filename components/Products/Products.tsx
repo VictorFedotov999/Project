@@ -1,10 +1,11 @@
 'use client';
+
 import React from 'react';
-import { ProductItem } from './Product/Product';
+import { ProductItem as ItemProduct } from './Product/Product';
 import { Api } from '../../services/api-client';
 import { useSearchParams } from 'next/navigation';
-import { Product } from '@prisma/client';
 import { ProductSkeleton } from '../Skeletons/ProductSkeleton';
+import { ProductIdType } from '../../prisma/prismaType';
 
 export const Products = () => {
     const searchParams = useSearchParams();
@@ -17,12 +18,13 @@ export const Products = () => {
     const limitProduct = 12;
     const skeletonProduct = Array(limitProduct).fill(0);
 
-    const [products, setProducts] = React.useState<Product[]>([]);
+    const [products, setProducts] = React.useState<ProductIdType[]>([]);
+    console.log('products:', products);
     const [isLoading, setIsLoading] = React.useState<boolean>(true);
 
     React.useEffect(() => {
         setIsLoading(true);
-        Api.CategoryProduct(category, sort, ingredients, size, type)
+        Api.filteringProducts(category, sort, ingredients, size, type)
             .then((item) => {
                 setProducts(item);
                 setIsLoading(false);
@@ -40,14 +42,15 @@ export const Products = () => {
             </div>
         );
     }
+
     if (products.length === 0) {
         return 'Ничего не найдено';
     }
 
     return (
         <div className='items '>
-            {products.map((product, index) => (
-                <ProductItem product={product} key={product.id} />
+            {products.map((product) => (
+                <ItemProduct key={product.id} product={product} />
             ))}
         </div>
     );

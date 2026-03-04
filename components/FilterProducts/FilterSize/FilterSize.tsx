@@ -11,7 +11,7 @@ import { activeCheckbox } from '../../../lib/active-Checkbox';
 export const FilterSize = () => {
     const router = useRouter();
     const searchParams = useSearchParams();
-    const [sizess, setSizes] = React.useState<SizeOption[]>([]);
+    const [sizes, setSizes] = React.useState<SizeOption[]>([]);
 
     const [selectedIds, setSelectedIds] = React.useState<string[]>([]);
     const [isLoading, setIsLoading] = React.useState<boolean>(true);
@@ -50,9 +50,9 @@ export const FilterSize = () => {
             <div className='filter__title'>Размеры:</div>
             <div className='filter__type'>
                 <ul className='filter__type-items'>
-                    {sizess.map((size: SizeOption) => (
+                    {sizes.map((size) => (
                         <FilterSizeItem
-                            key={size.size}
+                            key={size.id}
                             size={size}
                             checked={selectedIds.includes(size.size.toString())}
                             onChange={() => handleToggle(size)}

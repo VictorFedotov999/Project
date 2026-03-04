@@ -14,9 +14,9 @@ export const FilterTypeItem = ({ type, checked, onChange }: IProps) => {
                 onChange={onChange}
                 className='filter__type-text'
                 type='checkbox'
-                id={`filterCheckbox${type.id}`}
+                id={`filterCheckboxType${type.id}`}
             />
-            <label htmlFor={`filterCheckbox${type.id}`}>{type.type} </label>
+            <label htmlFor={`filterCheckboxType${type.id}`}>{type.type} </label>
         </li>
     );
 };

@@ -5,20 +5,14 @@ import { SortProductSvg } from './SortProductSvg';
 import { useClickAway } from 'react-use';
 import { getSorts } from '../../../services/sorts';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { Sorting } from '@prisma/client';
 
-type PropsType = {};
-
-type SortType = {
-    id: number;
-    title: string;
-};
-
-export const SortProduct: React.FC<PropsType> = () => {
+export const SortProduct = () => {
     const router = useRouter();
     const searchParams = useSearchParams();
 
-    const [sorts, setSorts] = React.useState<SortType[]>([]);
-    const [OpenSortPopup, setOpenSortPopup] = React.useState(false);
+    const [sorts, setSorts] = React.useState<Sorting[]>([]);
+    const [OpenSortPopup, setOpenSortPopup] = React.useState<boolean>(false);
 
     const currentSort = searchParams.get('sort') || 'Рейтинг';
 
@@ -32,7 +26,7 @@ export const SortProduct: React.FC<PropsType> = () => {
         const params = new URLSearchParams(searchParams.toString());
         params.set('sort', sort);
 
-        router.push(`/?${params.toString()}`);
+        router.replace(`/?${params.toString()}`);
     };
 
     const ref = React.useRef(null);
@@ -57,7 +51,7 @@ export const SortProduct: React.FC<PropsType> = () => {
             <div
                 className={OpenSortPopup ? ' header__sort__popup active' : ' header__sort__popup '}
             >
-                {sorts.map((sort: SortType, index: number) => (
+                {sorts.map((sort) => (
                     <div key={sort.id}>
                         <h3
                             onClick={() => onClickSort(sort.title)}

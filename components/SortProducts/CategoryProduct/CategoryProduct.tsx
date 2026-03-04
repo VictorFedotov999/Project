@@ -1,22 +1,19 @@
 'use client';
-import React from 'react';
 
+import React from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { CategorySkeleton } from '../../Skeletons/CategorySkeleton';
-
 import { getCategorys } from '../../../services/categorys';
-
-interface ICategoryType {
-    id: number;
-    title: string;
-}
+import { Category } from '@prisma/client';
 
 export const CategoryProduct = () => {
     const router = useRouter();
     const searchParams = useSearchParams();
 
-    const currentCategory = searchParams.get('category') || '0';
-    const [categorys, setCategorys] = React.useState<ICategoryType[]>([]);
+    const currentCategory = searchParams.get('category');
+
+    const [categorys, setCategorys] = React.useState<Category[]>([]);
+
     const [isLoading, setIsLoading] = React.useState<boolean>(true);
 
     React.useEffect(() => {
@@ -37,17 +34,17 @@ export const CategoryProduct = () => {
         );
     }
 
-    const onClickCategory = (index: number) => {
+    const onClickCategory = (id: number) => {
         const params = new URLSearchParams(searchParams.toString());
-        params.set('category', index.toString());
+        params.set('category', id.toString());
         router.push(`/?${params.toString()}`);
     };
 
     return (
         <div className='product__categorie-inner'>
-            {categorys.map((categor: ICategoryType, index: number) => (
+            {categorys.map((category, index: number) => (
                 <div
-                    key={index}
+                    key={category.id}
                     onClick={() => onClickCategory(index)}
                     className={
                         currentCategory === index.toString()
@@ -55,7 +52,7 @@ export const CategoryProduct = () => {
                             : 'product__categorie-text'
                     }
                 >
-                    {categor.title}
+                    {category.title}
                 </div>
             ))}
         </div>

@@ -15,7 +15,6 @@ export const BasketBtn = () => {
         <>
             <div className='header__basket'>
                 <HeaderBtnInfo onClickBasket={onClickBasket} />
-
                 <Basket openBasket={openBasket} onClickBasket={onClickBasket} />
             </div>
         </>

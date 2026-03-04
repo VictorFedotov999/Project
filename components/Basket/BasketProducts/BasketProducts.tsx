@@ -1,28 +1,20 @@
-'use client';
-
+import { IBasketItemsStore } from '@/store/BasketClientStore/BasketClientType';
 import React from 'react';
-import { BasketCostBtn } from '../BasketCost/BasketCostBtn';
 import { BasketProduct } from '../BasketProduct/BasketProduct';
 import { BasketProductEmpty } from '../BasketProductEmpty/BasketProductEmpty';
-import {
-    fetchCartItems,
-    useProductBasketClient,
-} from '@/store/BasketClientStore/BasketClientSelectors';
-import { IBasketItemsStore } from '@/store/BasketClientStore/BasketClientType';
+import { useFetchCartItems, useStoreItems } from '@/store/BasketClientStore/BasketClientSelectors';
+import { BasketProductType } from '../../../prisma/prismaType';
 
-export const BasketProducts = () => {
-    const BasketProductClient = useProductBasketClient();
-    console.log(BasketProductClient, 'BasketProductClient');
+interface IProps {
+    basketProducts: IBasketItemsStore[];
+}
 
-    React.useEffect(() => {
-        fetchCartItems();
-    }, [fetchCartItems]);
-
+export const BasketProducts = ({ basketProducts }: IProps) => {
     return (
         <>
             <div className='basket__content'>
                 <div className='basket__items'>
-                    {BasketProductClient.map((product: IBasketItemsStore) => (
+                    {basketProducts.map((product: IBasketItemsStore) => (
                         <BasketProduct key={product.id} product={product} />
                     ))}
                 </div>

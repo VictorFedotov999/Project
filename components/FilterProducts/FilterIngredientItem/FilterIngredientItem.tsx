@@ -2,13 +2,13 @@ import React from 'react';
 
 import { Ingredient } from '@prisma/client';
 
-type PropsType = {
+interface IProps {
     ingredients: Ingredient;
     checked: boolean;
     onChange: () => void;
-};
+}
 
-export const FilterIngredientItem: React.FC<PropsType> = ({ ingredients, checked, onChange }) => {
+export const FilterIngredientItem = ({ ingredients, checked, onChange }: IProps) => {
     return (
         <>
             <li className='filter__type-item'>

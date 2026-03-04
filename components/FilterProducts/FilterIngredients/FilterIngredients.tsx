@@ -11,10 +11,13 @@ import { activeCheckbox } from '../../../lib/active-Checkbox';
 export const FilterIngredients = () => {
     const router = useRouter();
     const searchParams = useSearchParams();
+
     const [ingredients, setIngredients] = React.useState<Ingredient[]>([]);
     const [selectedIds, setSelectedIds] = React.useState<string[]>([]);
+
     const [isLoading, setIsLoading] = React.useState<boolean>(true);
     const [showAll, setShowAll] = React.useState<boolean>(false);
+
     React.useEffect(() => {
         getIngredients()
             .then((data) => {
@@ -22,9 +25,11 @@ export const FilterIngredients = () => {
             })
             .catch((error) => console.log(error));
     }, []);
+
     const handleShowAll = () => {
         setShowAll(!showAll);
     };
+
     React.useEffect(() => {
         const params = new URLSearchParams(searchParams.toString());
 
@@ -34,9 +39,11 @@ export const FilterIngredients = () => {
             params.delete('ingredients');
         }
 
-        router.push(`/?${params.toString()}`);
+        router.replace(`/?${params.toString()}`);
     }, [selectedIds]);
+
     const displayedIngredients = showAll ? ingredients : ingredients.slice(0, 5);
+
     const handleToggle = (ingredient: Ingredient) => {
         activeCheckbox(ingredient.title.toString(), setSelectedIds);
     };
@@ -52,7 +59,7 @@ export const FilterIngredients = () => {
                 <ul className='filter__type-items'>
                     {displayedIngredients.map((ingredient: Ingredient) => (
                         <FilterIngredientItem
-                            key={ingredient.img}
+                            key={ingredient.image}
                             ingredients={ingredient}
                             checked={selectedIds.includes(ingredient.title)}
                             onChange={() => handleToggle(ingredient)}

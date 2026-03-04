@@ -9,8 +9,9 @@ export const FilterProducts = () => {
         <>
             <div className='filter'>
                 <h1 className='filter__title-type'>Фильтрация</h1>
-                <FilterType />
                 <FilterSize />
+                <FilterType />
+
                 <FilterIngredients />
             </div>
         </>
