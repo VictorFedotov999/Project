@@ -1,8 +1,9 @@
 import { useForm } from 'react-hook-form';
-
 import { signIn } from 'next-auth/react';
 import toast from 'react-hot-toast';
 import { InputForm } from '../../../Form/input-form';
+import { AuthorizationIn } from '../AuthorizationIn/AuthorizationIn.tsx';
+import { AuthorizationOut } from '../AuthorizationOut/AuthorizationOut';
 
 interface IProps {
     setOpenRegister: (open: boolean) => void;
@@ -51,16 +52,8 @@ export const AuthorizationForm = ({ setOpenRegister }: IProps) => {
                 />
 
                 <div className='popup__form-btns'>
-                    <button type='submit' className='popup__form-btn in'>
-                        Войти
-                    </button>
-
-                    <div
-                        className='popup__form-btn authorization'
-                        onClick={() => setOpenRegister(true)}
-                    >
-                        Регистрация
-                    </div>
+                    <AuthorizationIn />
+                    <AuthorizationOut setOpenRegister={setOpenRegister} />
                 </div>
             </form>
         </>

@@ -2,14 +2,11 @@
 
 import React from 'react';
 import { ProductItem as ItemProduct } from './Product/Product';
-
 import { useSearchParams } from 'next/navigation';
-
-import Image from 'next/image';
-import NotProductImg from '../../../public/not-find/Not-Product.png';
 import { ProductIdType } from '../../../prisma/prismaType';
 import { Api } from '../../../services/api-client';
-import { ProductSkeleton } from '../../Skeletons/ProductSkeleton';
+import { ProductNotFound } from './ProductNotFound/ProductNotFound';
+import { SkeletonProduct } from './Product/SkeletonProduct/SkeletonProduct';
 
 export const Products = () => {
     const searchParams = useSearchParams();
@@ -18,9 +15,6 @@ export const Products = () => {
     const ingredients = searchParams.get('ingredients') || '';
     const size = searchParams.get('size') || '';
     const type = searchParams.get('type') || '';
-
-    const limitProduct = 12;
-    const skeletonProduct = Array(limitProduct).fill(0);
 
     const [products, setProducts] = React.useState<ProductIdType[]>([]);
     const [isLoading, setIsLoading] = React.useState<boolean>(true);
@@ -32,36 +26,15 @@ export const Products = () => {
                 setProducts(item);
                 setIsLoading(false);
             })
-            .catch((error) => console.log('error:', error));
+            .catch((error) => console.error('Error:', error));
     }, [category, sort, ingredients, size, type]);
 
     if (isLoading) {
-        return (
-            <div className='items'>
-                {skeletonProduct.map((_, index: number) => (
-                    <ProductSkeleton key={`${_}-${index}`} />
-                ))}
-                ;
-            </div>
-        );
+        return <SkeletonProduct />;
     }
 
     if (products.length === 0) {
-        return (
-            <>
-                <div className='not__product'>
-                    <Image
-                        className='
-                    not__product-img'
-                        src={NotProductImg}
-                        width={400}
-                        height={400}
-                        alt='Not-Product'
-                    />
-                    <h1 className='not__product-text'> Не найдено</h1>
-                </div>
-            </>
-        );
+        return <ProductNotFound />;
     }
 
     return (

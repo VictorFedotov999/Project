@@ -1,6 +1,5 @@
 import { Title } from '../../../title-cart';
 import { ClearBasketBtn } from '../ClearBasketBtn/ClearBasketBtn';
-
 import { OrderCartItems } from '../OrderCartItems/OrderCartItems';
 
 export const OrderCart = () => {

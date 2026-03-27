@@ -6,6 +6,7 @@ import { useClickAway } from 'react-use';
 import { useRouter, useSearchParams } from 'next/navigation';
 import ChoiceProductIcon from '../../../../public/choiceProduct/choiceProduct.svg';
 import { Sorting } from '@prisma/client';
+import { SortProductItem } from './SortProductItem';
 
 interface IProps {
     sorts: Sorting[];
@@ -18,10 +19,14 @@ export const SortProduct = ({ sorts }: IProps) => {
     const [OpenSortPopup, setOpenSortPopup] = React.useState<boolean>(false);
 
     const currentSort = searchParams.get('sort') || 'Рейтинг';
-
     const onClickPopup = () => {
         setOpenSortPopup(true);
     };
+
+    const ref = React.useRef(null);
+    useClickAway(ref, () => {
+        setOpenSortPopup(false);
+    });
 
     const onClickSort = (sort: string) => {
         setOpenSortPopup(false);
@@ -32,11 +37,6 @@ export const SortProduct = ({ sorts }: IProps) => {
         router.replace(`/?${params.toString()}`);
     };
 
-    const ref = React.useRef(null);
-    useClickAway(ref, () => {
-        setOpenSortPopup(false);
-    });
-
     return (
         <div className='sort__inner' ref={ref}>
             <Image
@@ -46,9 +46,7 @@ export const SortProduct = ({ sorts }: IProps) => {
                 height={20}
                 alt='Choice-Icon'
             />
-            <p className='sort__title:' onClick={() => onClickPopup()}>
-                Сортировка:
-            </p>
+            <p className='sort__title:'>Сортировка:</p>
             <p className='sort__text' onClick={() => onClickPopup()}>
                 {currentSort}
             </p>
@@ -57,18 +55,12 @@ export const SortProduct = ({ sorts }: IProps) => {
                 className={OpenSortPopup ? ' header__sort__popup active' : ' header__sort__popup '}
             >
                 {sorts.map((sort) => (
-                    <div key={sort.id}>
-                        <h3
-                            onClick={() => onClickSort(sort.title)}
-                            className={
-                                currentSort === sort.title
-                                    ? 'header__profile_popup-text active'
-                                    : 'header__profile_popup-text '
-                            }
-                        >
-                            {sort.title}
-                        </h3>
-                    </div>
+                    <SortProductItem
+                        key={sort.id}
+                        sort={sort}
+                        currentSort={currentSort}
+                        onClickSort={onClickSort}
+                    />
                 ))}
             </div>
         </div>

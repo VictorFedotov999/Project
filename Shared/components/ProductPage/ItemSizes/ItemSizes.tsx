@@ -1,6 +1,3 @@
-'use client';
-
-import React from 'react';
 import { SizeOption } from '@prisma/client';
 
 type PropsType = {

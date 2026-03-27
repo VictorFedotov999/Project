@@ -1,20 +1,23 @@
-interface
-
-
-
-interface IProps {
-    set: 
+interface Setting {
+    id: number;
+    name: string;
+    path: string;
 }
 
-export const ProfilePopupItem = ({set, monClickSetting}: IProps) => {
-    
+interface IProps {
+    set: Setting;
+    onClickSetting: (id: number) => void;
+    activeId: number;
+}
+
+export const ProfilePopupItem = ({ set, onClickSetting, activeId }: IProps) => {
     return (
         <>
             <h3
-                
-                onClick={() => onClickSetting(index)}
+                key={set.id}
+                onClick={() => onClickSetting(set.id)}
                 className={
-                    setting === index
+                    activeId === set.id
                         ? 'header__profile_popup-text active'
                         : 'header__profile_popup-text'
                 }

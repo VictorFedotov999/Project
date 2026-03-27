@@ -1,7 +1,6 @@
+import { Header } from '../../../Shared/components/Header/Header';
 import '../../../style/scss/style.scss';
 import type { Metadata } from 'next';
-import { Header } from '../../../components/Header/Header';
-import { AuthorizationPopup } from '../../../components/AuthorizationPopup/AuthorizationPopup';
 
 export const metadata: Metadata = {
     title: 'Заказы | PIZZA PRO',

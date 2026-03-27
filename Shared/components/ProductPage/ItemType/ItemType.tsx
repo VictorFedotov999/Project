@@ -1,16 +1,13 @@
-'use client';
-import React from 'react';
-
 import { TypeOption } from '@prisma/client';
 
-type PropsType = {
+interface IProps {
     types: TypeOption[];
     typeOptions: TypeOption[];
     typeActive: number;
     setTypeActive: (index: number) => void;
-};
+}
 
-const ItemType = ({ types, typeOptions, typeActive, setTypeActive }: PropsType) => {
+const ItemType = ({ types, typeOptions, typeActive, setTypeActive }: IProps) => {
     const onClickType = (index: number, isDisabled: boolean) => {
         if (isDisabled) return;
         setTypeActive(index);

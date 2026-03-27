@@ -2,7 +2,7 @@ const settingsPage = () => {
     return (
         <>
             <div className='container'>
-                <h1>Настройки</h1>
+                <h1>Страница настройки в разработке</h1>
             </div>
         </>
     );

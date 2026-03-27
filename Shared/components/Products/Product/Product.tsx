@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { ProductBtnAdd } from './ProductBtnAdd/ProductBtnAdd';
-
 import Image from 'next/image';
 import { ProductIdType } from '../../../../prisma/prismaType';
 

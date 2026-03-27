@@ -1,8 +1,8 @@
-'use client'; // Директива уже есть, это правильно для error.js
+'use client';
 
 import Image from 'next/image';
 import { useEffect } from 'react';
-
+import ErrorImg from '../../public/not-find/error.png';
 interface IProps {
     error: any;
     reset: any;
@@ -53,23 +53,20 @@ export default function Error({ error, reset }: IProps) {
                                 </div>
                                 На главную
                             </button>
-                            <button
-                                className='not__found-obnow'
-                                onClick={() => reset()} // Используем reset из пропсов
-                            >
+                            <button className='not__found-obnow' onClick={() => reset()}>
                                 Обновить
                             </button>
                         </div>
                     </div>
                     <div className='not__found-img'>
-                        {/* Раскомментируйте когда добавите изображение
+                        Раскомментируйте когда добавите изображение
                         <Image
                             className='not__found-error'
                             src={ErrorImg}
                             alt='notFound'
                             width={100}
                             height={100}
-                        /> */}
+                        />
                     </div>
                 </div>
             </div>

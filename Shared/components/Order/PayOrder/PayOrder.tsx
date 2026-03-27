@@ -7,7 +7,6 @@ export const PayOrder = () => {
         <>
             <div className='order__result'>
                 <ResulPrice />
-
                 <PayOrderInfo />
                 <OrderPromo />
             </div>

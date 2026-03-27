@@ -1,5 +1,4 @@
 import { Resend } from 'resend';
-import { PayOrderTemplate } from '../../components/email-template/pay-order';
 
 export const sendEmail = async (subject: string, template: React.ReactNode) => {
     const resend = new Resend(process.env.RESEND_API_KEY);

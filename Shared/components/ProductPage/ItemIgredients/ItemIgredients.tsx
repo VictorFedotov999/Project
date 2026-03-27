@@ -1,10 +1,8 @@
-'use client';
 import { Ingredient } from '@prisma/client';
-import React from 'react';
 
 type PropsType = {
     ingredients: Ingredient[];
-    selectedIngredients: Ingredient[]; //
+    selectedIngredients: Ingredient[];
     setSelectedIngredients: (ingredients: Ingredient[]) => void;
 };
 

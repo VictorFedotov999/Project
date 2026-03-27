@@ -4,12 +4,12 @@ import React from 'react';
 
 import { debounce } from 'lodash';
 import { useClickAway } from 'react-use';
-
 import InputPopop from './InputPopop';
 import { InputSearch } from './InputSearch';
 import { ClearQueryBtn } from './ClearQueryBtn';
-import { Api } from '../../../../services/api-client';
+
 import { ProductIdType } from '../../../../prisma/prismaType';
+import { Api } from '../../../../services/api-client';
 
 export const HeaderInput = () => {
     const [searchQuery, setSearQuery] = React.useState<string>('');

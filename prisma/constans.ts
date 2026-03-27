@@ -43,7 +43,7 @@ export const sorting = [
 export const product = [
     //Пиццы
     {
-        title: 'Пицца с хреном ',
+        title: 'Пицца с хреном',
         description:
             'Возможно, первая в истории пицца с пикантным сливочным хреном, свиной шейкой, красным луком.',
         image: '/allProducts/pizza/pizza1.avif',
@@ -51,18 +51,9 @@ export const product = [
         categoryId: 1,
         price: 429,
         quantity: 1,
-
-        sizeOptions: {
-            connect: [{ id: 1 }, { id: 3 }],
-        },
-
-        typeOptions: {
-            connect: [{ id: 1 }],
-        },
-
-        ingredients: {
-            connect: [{ id: 1 }, { id: 2 }, { id: 5 }],
-        },
+        sizeOptions: { connect: [{ id: 1 }, { id: 2 }, { id: 3 }] }, // 25,30,35
+        typeOptions: { connect: [{ id: 1 }, { id: 2 }] }, // Традиционное, Тонкое
+        ingredients: { connect: [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 5 }] },
     },
     {
         title: 'Говядина с хреном',
@@ -72,39 +63,21 @@ export const product = [
         categoryId: 1,
         price: 339,
         quantity: 1,
-
-        sizeOptions: {
-            connect: [{ id: 1 }, { id: 3 }],
-        },
-
-        typeOptions: {
-            connect: [{ id: 1 }],
-        },
-
-        ingredients: {
-            connect: [{ id: 1 }, { id: 2 }, { id: 5 }],
-        },
+        sizeOptions: { connect: [{ id: 2 }, { id: 3 }] }, // 30,35
+        typeOptions: { connect: [{ id: 1 }] }, // Традиционное
+        ingredients: { connect: [{ id: 2 }, { id: 3 }, { id: 6 }, { id: 7 }] },
     },
     {
         title: 'Мясная',
-        description: 'Перезагрузили рецепт: теперь пять видов мяса и новый фирменный соус.',
+        description: 'Пять видов мяса и новый фирменный соус.',
         image: '/allProducts/pizza/pizza3.avif',
         rating: 1,
         categoryId: 1,
         price: 449,
         quantity: 1,
-
-        sizeOptions: {
-            connect: [{ id: 1 }, { id: 3 }],
-        },
-
-        typeOptions: {
-            connect: [{ id: 1 }],
-        },
-
-        ingredients: {
-            connect: [{ id: 1 }, { id: 2 }, { id: 5 }],
-        },
+        sizeOptions: { connect: [{ id: 1 }, { id: 3 }] }, // 25,35
+        typeOptions: { connect: [{ id: 1 }, { id: 2 }] },
+        ingredients: { connect: [{ id: 2 }, { id: 3 }, { id: 6 }, { id: 8 }, { id: 10 }] },
     },
     {
         title: 'Додо',
@@ -114,18 +87,9 @@ export const product = [
         categoryId: 1,
         price: 489,
         quantity: 1,
-
-        sizeOptions: {
-            connect: [{ id: 1 }, { id: 3 }],
-        },
-
-        typeOptions: {
-            connect: [{ id: 1 }],
-        },
-
-        ingredients: {
-            connect: [{ id: 1 }, { id: 2 }, { id: 5 }],
-        },
+        sizeOptions: { connect: [{ id: 2 }, { id: 3 }] }, // 30,35
+        typeOptions: { connect: [{ id: 2 }] },
+        ingredients: { connect: [{ id: 1 }, { id: 3 }, { id: 5 }, { id: 6 }, { id: 7 }] },
     },
     {
         title: 'Пепперони фреш',
@@ -135,18 +99,9 @@ export const product = [
         categoryId: 1,
         price: 259,
         quantity: 1,
-
-        sizeOptions: {
-            connect: [{ id: 1 }, { id: 3 }],
-        },
-
-        typeOptions: {
-            connect: [{ id: 1 }],
-        },
-
-        ingredients: {
-            connect: [{ id: 1 }, { id: 2 }, { id: 5 }],
-        },
+        sizeOptions: { connect: [{ id: 1 }, { id: 2 }] }, // 25,30
+        typeOptions: { connect: [{ id: 1 }] },
+        ingredients: { connect: [{ id: 3 }, { id: 5 }, { id: 10 }] },
     },
     {
         title: 'Чесночный цыпленок',
@@ -156,18 +111,9 @@ export const product = [
         categoryId: 1,
         price: 259,
         quantity: 1,
-
-        sizeOptions: {
-            connect: [{ id: 1 }, { id: 3 }],
-        },
-
-        typeOptions: {
-            connect: [{ id: 1 }],
-        },
-
-        ingredients: {
-            connect: [{ id: 1 }, { id: 2 }, { id: 5 }],
-        },
+        sizeOptions: { connect: [{ id: 1 }, { id: 3 }] }, // 25,35
+        typeOptions: { connect: [{ id: 1 }, { id: 2 }] },
+        ingredients: { connect: [{ id: 6 }, { id: 3 }, { id: 7 }, { id: 5 }] },
     },
     {
         title: 'Пикантные колбаски',
@@ -177,18 +123,9 @@ export const product = [
         categoryId: 1,
         price: 259,
         quantity: 1,
-
-        sizeOptions: {
-            connect: [{ id: 1 }, { id: 3 }],
-        },
-
-        typeOptions: {
-            connect: [{ id: 1 }],
-        },
-
-        ingredients: {
-            connect: [{ id: 1 }, { id: 2 }, { id: 5 }],
-        },
+        sizeOptions: { connect: [{ id: 2 }, { id: 3 }] },
+        typeOptions: { connect: [{ id: 2 }] },
+        ingredients: { connect: [{ id: 10 }, { id: 3 }, { id: 5 }] },
     },
     {
         title: 'Терияки',
@@ -198,81 +135,45 @@ export const product = [
         categoryId: 1,
         price: 339,
         quantity: 1,
-
-        sizeOptions: {
-            connect: [{ id: 1 }, { id: 3 }],
-        },
-
-        typeOptions: {
-            connect: [{ id: 1 }],
-        },
-
-        ingredients: {
-            connect: [{ id: 1 }, { id: 2 }, { id: 5 }],
-        },
+        sizeOptions: { connect: [{ id: 1 }, { id: 3 }] },
+        typeOptions: { connect: [{ id: 1 }] },
+        ingredients: { connect: [{ id: 6 }, { id: 7 }, { id: 3 }, { id: 2 }] },
     },
     {
-        title: 'Четыре сыра ',
+        title: 'Четыре сыра',
         description: 'Сыр блю чиз, сыры чеддер и пармезан, моцарелла, фирменный соус альфредо.',
         image: '/allProducts/pizza/pizza9.avif',
         rating: 1,
         categoryId: 1,
         price: 359,
         quantity: 1,
-
-        sizeOptions: {
-            connect: [{ id: 1 }, { id: 3 }],
-        },
-
-        typeOptions: {
-            connect: [{ id: 1 }],
-        },
-
-        ingredients: {
-            connect: [{ id: 1 }, { id: 2 }, { id: 5 }],
-        },
+        sizeOptions: { connect: [{ id: 1 }, { id: 2 }, { id: 3 }] },
+        typeOptions: { connect: [{ id: 1 }, { id: 2 }] },
+        ingredients: { connect: [{ id: 3 }, { id: 4 }, { id: 5 }] },
     },
     {
-        title: 'Сырная ',
+        title: 'Сырная',
         description: 'Моцарелла, сыры чеддер и пармезан, фирменный соус альфредо.',
         image: '/allProducts/pizza/pizza10.avif',
         rating: 1,
         categoryId: 1,
         price: 259,
         quantity: 1,
-
-        sizeOptions: {
-            connect: [{ id: 1 }, { id: 3 }],
-        },
-
-        typeOptions: {
-            connect: [{ id: 1 }],
-        },
-
-        ingredients: {
-            connect: [{ id: 1 }, { id: 2 }, { id: 5 }],
-        },
+        sizeOptions: { connect: [{ id: 1 }, { id: 2 }] },
+        typeOptions: { connect: [{ id: 1 }] },
+        ingredients: { connect: [{ id: 3 }, { id: 4 }] },
     },
     {
-        title: 'Мясной микс ',
-        description: 'Добавили сочную свиную шейку к пряной говядине, пикантной пепперони.',
+        title: 'Мясной микс',
+        description: 'Сочная свиная шейка, пряная говядина, пикантная пепперони.',
         image: '/allProducts/pizza/pizza11.avif',
         rating: 1,
         categoryId: 1,
         price: 549,
         quantity: 1,
-
-        sizeOptions: {
-            connect: [{ id: 1 }, { id: 3 }],
-        },
-
-        typeOptions: {
-            connect: [{ id: 1 }],
-        },
-
-        ingredients: {
-            connect: [{ id: 1 }, { id: 2 }, { id: 5 }],
-        },
+        sizeOptions: { connect: [{ id: 2 }, { id: 3 }] },
+        typeOptions: { connect: [{ id: 1 }, { id: 2 }] },
+        ingredients: { connect: [{ id: 2 }, { id: 8 }, { id: 10 }] },
     },
     {
         title: 'Ветчина и сыр',
@@ -282,18 +183,9 @@ export const product = [
         categoryId: 1,
         price: 299,
         quantity: 1,
-
-        sizeOptions: {
-            connect: [{ id: 1 }, { id: 3 }],
-        },
-
-        typeOptions: {
-            connect: [{ id: 1 }],
-        },
-
-        ingredients: {
-            connect: [{ id: 1 }, { id: 2 }, { id: 5 }],
-        },
+        sizeOptions: { connect: [{ id: 1 }, { id: 3 }] },
+        typeOptions: { connect: [{ id: 2 }] },
+        ingredients: { connect: [{ id: 3 }, { id: 4 }, { id: 6 }] },
     },
 
     //Koфе

@@ -3,186 +3,144 @@ import { NextRequest, NextResponse } from 'next/server';
 import { authOptions } from '../auth/[...nextauth]/route';
 import { getServerSession } from 'next-auth';
 
+// ================= GET =================
 export async function GET() {
     try {
         const session = await getServerSession(authOptions);
+        if (!session?.user) return NextResponse.json({ error: 'Не авторизован' }, { status: 401 });
 
-        if (!session?.user) {
-            return NextResponse.json({ error: 'Не авторизован' }, { status: 401 });
-        }
         const userId = parseInt(session.user.id);
 
         const basketUser = await prisma.userBasket.findMany({
-            where: { userId: userId },
+            where: { userId },
             include: {
                 userBasketProducts: {
-                    orderBy: {
-                        id: 'asc',
-                    },
+                    where: { userOrderId: null },
+                    orderBy: { id: 'asc' },
                     include: {
-                        product: {},
-                        sizeOption: {},
-                        typeOption: {},
-                        ingredients: {},
+                        product: true,
+                        sizeOption: true,
+                        typeOption: true,
+                        ingredients: true,
                     },
                 },
             },
         });
-        return NextResponse.json(basketUser);
+
+        return NextResponse.json(basketUser ?? []);
     } catch (error) {
-        console.error('Error:', error);
+        console.error('GET Error:', error);
+        return NextResponse.json({ error: 'Ошибка сервера' }, { status: 500 });
     }
 }
 
+// ================= POST =================
 export async function POST(req: NextRequest) {
     try {
         const session = await getServerSession(authOptions);
+        if (!session?.user) return NextResponse.json({ error: 'Не авторизован' }, { status: 401 });
 
-        if (!session?.user) {
-            return NextResponse.json({ error: 'Не авторизован' }, { status: 401 });
-        }
         const userId = parseInt(session.user.id);
-
         const body = await req.json();
 
-        const userBasket = await prisma.userBasket.findFirst({
-            where: { userId: userId },
-        });
+        const ingredientIds: number[] = Array.isArray(body.ingredients) ? body.ingredients : [];
 
-        if (!userBasket) {
-            return NextResponse.json({ error: 'Корзина не найдена' }, { status: 404 });
-        }
+        const userBasket = await prisma.userBasket.findFirst({ where: { userId } });
+        if (!userBasket) return NextResponse.json({ error: 'Корзина не найдена' }, { status: 404 });
 
+        // Проверка существующего товара с такими же ингредиентами
         const existingItems = await prisma.userBasketProduct.findMany({
             where: {
                 basketId: userBasket.id,
                 productId: body.productId,
                 sizeOptionId: body.sizeOptionId,
                 typeOptionId: body.typeOptionId,
+                userOrderId: null,
             },
-            include: {
-                ingredients: true,
-            },
+            include: { ingredients: true },
         });
 
-        const compareIngredients = (a: number[], b: number[]) => {
-            if (a.length !== b.length) return false;
-
-            const sortedA = [...a].sort();
-            const sortedB = [...b].sort();
-
-            return sortedA.every((id, index) => id === sortedB[index]);
-        };
+        const compareIngredients = (a: number[], b: number[]) =>
+            a.length === b.length && [...a].sort().every((id, i) => id === [...b].sort()[i]);
 
         const existingItem = existingItems.find((item) =>
             compareIngredients(
                 item.ingredients.map((i) => i.id),
-                body.ingredients || [],
+                ingredientIds,
             ),
         );
 
         if (existingItem) {
             const updatedItem = await prisma.userBasketProduct.update({
-                where: {
-                    id: existingItem.id,
-                },
-                data: {
-                    quantity: {
-                        increment: 1,
-                    },
-                },
-                include: {
-                    product: true,
-                    sizeOption: true,
-                    typeOption: true,
-                    ingredients: true,
-                },
+                where: { id: existingItem.id },
+                data: { quantity: { increment: 1 } },
+                include: { product: true, sizeOption: true, typeOption: true, ingredients: true },
             });
-
             return NextResponse.json(updatedItem);
-        } else {
-            const basketItem = await prisma.userBasketProduct.create({
-                data: {
-                    basketId: userBasket.id,
-                    productId: body.productId,
-                    sizeOptionId: body.sizeOptionId,
-                    typeOptionId: body.typeOptionId,
-                    ingredients: {
-                        connect: (body.ingredients || []).map((id: number) => ({ id })),
-                    },
-                    quantity: 1,
-                },
-                include: {
-                    product: true,
-                    sizeOption: true,
-                    typeOption: true,
-                    ingredients: true,
-                },
-            });
-
-            return NextResponse.json(basketItem);
         }
+
+        // Создание нового товара с ингредиентами
+        const basketItem = await prisma.userBasketProduct.create({
+            data: {
+                basketId: userBasket.id,
+                productId: body.productId,
+                sizeOptionId: body.sizeOptionId,
+                typeOptionId: body.typeOptionId,
+                quantity: 1,
+                ingredients: {
+                    connect: ingredientIds.map((id) => ({ id })),
+                },
+            },
+            include: { product: true, sizeOption: true, typeOption: true, ingredients: true },
+        });
+
+        return NextResponse.json(basketItem);
     } catch (error) {
-        console.error('Error:', error);
+        console.error('POST Error:', error);
+        return NextResponse.json({ error: 'Ошибка сервера', details: error }, { status: 500 });
     }
 }
 
+// ================= PATCH =================
 export async function PATCH(req: NextRequest) {
     try {
         const body = await req.json();
-
         await prisma.userBasketProduct.update({
-            where: {
-                id: body.productId,
-            },
-            data: {
-                quantity: body.count,
-            },
+            where: { id: body.productId },
+            data: { quantity: body.count },
         });
-
         return NextResponse.json({ success: true });
     } catch (error) {
-        console.error('Error:', error);
+        console.error('PATCH Error:', error);
+        return NextResponse.json({ error: 'Ошибка сервера' }, { status: 500 });
     }
 }
 
+// ================= DELETE =================
 export async function DELETE(req: NextRequest) {
     try {
         const session = await getServerSession(authOptions);
+        if (!session?.user) return NextResponse.json({ error: 'Не авторизован' }, { status: 401 });
 
-        if (!session?.user) {
-            return NextResponse.json({ error: 'Не авторизован' }, { status: 401 });
-        }
         const userId = parseInt(session.user.id);
-
         const body = await req.json();
 
-        const userBasket = await prisma.userBasket.findFirst({
-            where: { userId: userId },
-        });
-
-        if (!userBasket) {
-            return NextResponse.json({ error: 'Корзина не найдена' }, { status: 404 });
-        }
+        const userBasket = await prisma.userBasket.findFirst({ where: { userId } });
+        if (!userBasket) return NextResponse.json({ error: 'Корзина не найдена' }, { status: 404 });
 
         if (body.clear) {
             await prisma.userBasketProduct.deleteMany({
-                where: {
-                    basketId: userBasket.id,
-                },
+                where: { basketId: userBasket.id, userOrderId: null },
             });
-
             return NextResponse.json({ success: true });
         }
 
-        await prisma.userBasketProduct.delete({
-            where: {
-                id: body.productId,
-            },
+        await prisma.userBasketProduct.deleteMany({
+            where: { id: body.productId, basketId: userBasket.id, userOrderId: null },
         });
-
         return NextResponse.json({ success: true });
     } catch (error) {
-        console.error('Error:', error);
+        console.error('DELETE Error:', error);
+        return NextResponse.json({ error: 'Ошибка сервера' }, { status: 500 });
     }
 }

@@ -30,7 +30,7 @@ export const InputForm = ({ type, placeholder, error, regName, register }: IInpu
 
                         ...(type === 'phone' && {
                             pattern: {
-                                value: /^[0123456789]{2,}$/i,
+                                value: /^[+0123456789]{2,}$/i,
                                 message: 'Некорректный номер',
                             },
                         }),

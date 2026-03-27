@@ -32,7 +32,6 @@ export const clearBasket = async () => {
         const { data } = await axionsInstatce.delete(API_BASKET_USER, {
             data: { clear: true },
         });
-
         return data;
     } catch (error) {
         console.error('Error:', error);
@@ -42,8 +41,6 @@ export const clearBasket = async () => {
 export const increaseProductCount = async (productId: number, count: number) => {
     try {
         const { data } = await axionsInstatce.patch(API_BASKET_USER, { productId, count });
-        return data;
-
         return data;
     } catch (error) {
         console.error('Error:', error);

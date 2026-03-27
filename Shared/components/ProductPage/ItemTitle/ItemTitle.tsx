@@ -1,9 +1,7 @@
-import { IBasketProduct } from '@/store/BasketClientStore/BasketClientType';
-import { Product } from '@prisma/client';
-import { AllProductType } from '../../../prisma/prismaType';
+import { ProductIdType } from '../../../../prisma/prismaType';
 
 interface IProps {
-    product: AllProductType;
+    product: ProductIdType;
 }
 
 const ItemTitle = ({ product }: IProps) => {

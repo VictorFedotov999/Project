@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { FilterIngredientItem } from '../FilterIngredientItem/FilterIngredientItem';
-
 import { Ingredient } from '@prisma/client';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { activeCheckbox } from '../../../lib/active-checkbox';

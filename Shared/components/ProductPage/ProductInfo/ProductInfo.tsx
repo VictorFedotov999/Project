@@ -7,9 +7,7 @@ import ItemImg from '../ItemImg/ItemImg';
 import ItemSizes from '../ItemSizes/ItemSizes';
 import ItemTitle from '../ItemTitle/ItemTitle';
 import ItemType from '../ItemType/ItemType';
-
 import { Ingredient, SizeOption, TypeOption } from '@prisma/client';
-
 import { useProductBasketClientStore } from '@/store/BasketClientStore/BasketClientStore';
 import toast from 'react-hot-toast';
 import { useSession } from 'next-auth/react';
@@ -24,6 +22,7 @@ interface IProductInfo {
 export const ProductInfo = ({ product, sizeOptions, typeOptions }: IProductInfo) => {
     const { addCartItem } = useProductBasketClientStore();
     const { data: session } = useSession();
+
     const [sizeActive, setSizeAcitve] = React.useState(0);
     const [typeActive, setTypeActive] = React.useState(0);
     const [selectedIngredients, setSelectedIngredients] = React.useState<Ingredient[]>([]);
@@ -32,15 +31,22 @@ export const ProductInfo = ({ product, sizeOptions, typeOptions }: IProductInfo)
     const types = product.typeOptions;
     const ingredients = product.ingredients;
 
-    const selectedSize = sizeOptions.map((size) => size.id);
-    const selectedType = typeOptions.map((type) => type.id);
+    const selectedSize = product.sizeOptions.map((size) => size.id);
+    const selectedType = product.typeOptions.map((type) => type.id);
     const selectedIngredientsId = selectedIngredients.map((ingredients) => ingredients.id);
+    console.log(selectedIngredientsId);
 
-    const onAddProductToBasket = async (user) => {
+    const onAddProductToBasket = async () => {
         if (!session) {
             toast.error('Вы не авторизованы');
+            return;
         }
-
+        console.log({
+            productId: product.id,
+            sizeOptionId: selectedSize[sizeActive],
+            typeOptionId: selectedType[typeActive],
+            ingredients: selectedIngredientsId,
+        });
         try {
             const newProduct = {
                 basketId: session.id,
@@ -52,6 +58,7 @@ export const ProductInfo = ({ product, sizeOptions, typeOptions }: IProductInfo)
             await addCartItem(newProduct);
             toast.success('Товар добавлен в корзину');
         } catch (error) {
+            console.error('Error', error);
             toast.error('Ошибка добавления товара');
         }
     };
