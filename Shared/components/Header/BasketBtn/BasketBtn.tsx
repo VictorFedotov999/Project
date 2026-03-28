@@ -7,12 +7,13 @@ import { AuthorizationBtn } from '../../AuthorizationBtn/AuthorizationBtn';
 import { useSession, signIn } from 'next-auth/react';
 
 export const BasketBtn = () => {
-    const { data: session } = useSession();
+    const { data: session, status } = useSession();
+
     const [openBasket, setOpenBasket] = React.useState<boolean>(false);
     const onClickBasket = (open: boolean) => {
         setOpenBasket(open);
     };
-
+    if (status === 'loading') return null;
     return (
         <>
             {!session ? (

@@ -1,13 +1,7 @@
-import axios from 'axios';
-
-interface IProps {
-    price: number;
-}
-
-const ItemButton = ({ price }: IProps) => {
+const ItemButton = () => {
     return (
         <>
-            <button className='product__btn'>Добавить в корзину за {price}₽</button>
+            <button className='product__btn'>Добавить в корзину </button>
         </>
     );
 };

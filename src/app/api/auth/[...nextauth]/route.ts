@@ -1,12 +1,12 @@
 import NextAuth from 'next-auth';
-import Github from 'next-auth/providers/github';
+import GithubProvider from 'next-auth/providers/github';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { prisma } from '../../../../../prisma/prisma-client';
 import { UserRole } from '@prisma/client';
 
 export const authOptions = {
     providers: [
-        Github({
+        GithubProvider({
             clientId: process.env.GITHUB_ID || '',
             clientSecret: process.env.GITHUB_SECRET || '',
             profile(profile, tokens) {
@@ -23,32 +23,24 @@ export const authOptions = {
         CredentialsProvider({
             name: 'Credentials',
             credentials: {
-                email: { label: 'email', type: 'text' },
-                password: { label: 'password', type: 'password' },
+                email: { label: 'Email', type: 'text' },
+                password: { label: 'Password', type: 'password' },
             },
-
             async authorize(credentials) {
-                if (!credentials) {
-                    return null;
-                }
+                if (!credentials) return null;
 
-                const findUser = await prisma.user.findFirst({
+                const user = await prisma.user.findFirst({
                     where: { email: credentials.email },
                 });
 
-                if (!findUser) {
-                    return null;
-                }
-
-                if (credentials.password !== findUser.password) {
-                    return null;
-                }
+                if (!user) return null;
+                if (credentials.password !== user.password) return null;
 
                 return {
-                    id: String(findUser.id),
-                    name: findUser.name,
-                    email: findUser.email,
-                    role: findUser.role,
+                    id: String(user.id),
+                    name: user.name,
+                    email: user.email,
+                    role: user.role,
                 };
             },
         }),
@@ -58,21 +50,71 @@ export const authOptions = {
     session: {
         strategy: 'jwt',
     },
-    callbacks: {
-        async signIn({ user, account, profile }) {
-            try {
-                console.log('SignIn attempt:', { user, account, profile });
 
-                if (account?.provider === 'credentials') {
-                    return true;
+    callbacks: {
+        async jwt({ token, user, account }) {
+            if (user) {
+                const dbUser = await prisma.user.findFirst({
+                    where: { email: user.email },
+                });
+
+                if (!dbUser) {
+                    return {};
                 }
 
-                if (account?.provider === 'github') {
-                    if (!user.email) {
-                        console.error('GitHub user has no email');
-                        return false;
-                    }
+                token.id = String(dbUser.id);
+                token.name = dbUser.name;
+                token.email = dbUser.email;
+                token.role = dbUser.role;
+                token.provider = account?.provider;
+            }
 
+            if (token.email) {
+                const dbUser = await prisma.user.findFirst({
+                    where: { email: token.email },
+                });
+
+                if (!dbUser) {
+                    return {};
+                }
+
+                token.id = String(dbUser.id);
+                token.name = dbUser.name;
+                token.email = dbUser.email;
+                token.role = dbUser.role;
+            }
+
+            return token;
+        },
+
+        session({ session, token }) {
+            if (!token?.id) {
+                return null;
+            }
+
+            if (session?.user) {
+                session.user.id = token.id as string;
+                session.user.name = token.name as string;
+                session.user.email = token.email as string;
+                session.user.role = token.role as string;
+                session.user.provider = token.provider as string;
+            }
+
+            return session;
+        },
+
+        async signIn({ user, account }) {
+            try {
+                if (!account) return false;
+
+                // Credentials: просто разрешаем
+                if (account.provider === 'credentials') return true;
+
+                // GitHub provider
+                if (account.provider === 'github') {
+                    if (!user.email) return false;
+
+                    // Проверяем, есть ли пользователь в БД
                     let existingUser = await prisma.user.findFirst({
                         where: {
                             OR: [{ providerId: account.providerAccountId }, { email: user.email }],
@@ -80,6 +122,7 @@ export const authOptions = {
                     });
 
                     if (existingUser) {
+                        // Обновляем данные пользователя
                         await prisma.user.update({
                             where: { id: existingUser.id },
                             data: {
@@ -89,9 +132,9 @@ export const authOptions = {
                                 email: user.email,
                             },
                         });
-                        console.log('User updated:', existingUser.id);
                     } else {
-                        existingUser = await prisma.user.create({
+                        // Создаем нового пользователя
+                        await prisma.user.create({
                             data: {
                                 email: user.email,
                                 name: user.name,
@@ -99,64 +142,19 @@ export const authOptions = {
                                 provider: account.provider,
                                 providerId: account.providerAccountId,
                                 role: 'USER',
-
-                                UserBasket: {
-                                    create: {},
-                                },
+                                UserBasket: { create: {} },
                             },
                         });
-                        console.log('New user created:', existingUser.id);
                     }
 
                     return true;
                 }
 
-                return true;
+                return false;
             } catch (error) {
                 console.error('SignIn error:', error);
                 return false;
             }
-        },
-
-        async jwt({ token, user, account }) {
-            if (user) {
-                token.id = user.id;
-                token.role = user.role;
-                token.name = user.name;
-                token.email = user.email;
-                token.provider = account?.provider;
-            }
-
-            if (token.email) {
-                try {
-                    const findUser = await prisma.user.findFirst({
-                        where: {
-                            email: token.email,
-                        },
-                    });
-
-                    if (findUser) {
-                        token.id = String(findUser.id);
-                        token.name = findUser.name;
-                        token.email = findUser.email;
-                        token.role = findUser.role;
-                    }
-                } catch (error) {
-                    console.error('JWT callback error:', error);
-                }
-            }
-
-            return token;
-        },
-
-        session({ session, token }) {
-            if (session?.user) {
-                session.user.id = token.id as string;
-                session.user.role = token.role as string;
-                session.user.name = token.name as string;
-                session.user.email = token.email as string;
-            }
-            return session;
         },
     },
 };

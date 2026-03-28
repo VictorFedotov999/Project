@@ -12,6 +12,7 @@ export interface IActions {
 export interface IInitialState {
     items: IBasketItemsStore[];
     error: boolean;
+    errorMessage: string;
     loading: boolean;
     totalCost: number;
     productCount: number;
@@ -19,11 +20,10 @@ export interface IInitialState {
 
 export interface IUseProductBasketClientState extends IInitialState, IActions {}
 
-// полный ответ со всеми полями
 export interface IBasketProduct extends UserBasket {
     product: IProduct;
 }
-//что будет в стайте после обработки
+
 export interface IBasketItemsStore {
     id: number;
     quantity: number;

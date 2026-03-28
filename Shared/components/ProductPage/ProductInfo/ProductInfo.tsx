@@ -49,6 +49,7 @@ export const ProductInfo = ({ product, sizeOptions, typeOptions }: IProductInfo)
                 typeOptionId: selectedType[typeActive],
                 ingredients: selectedIngredientsId,
             };
+
             await addCartItem(newProduct);
             toast.success('Товар добавлен в корзину');
         } catch (error) {
@@ -94,7 +95,7 @@ export const ProductInfo = ({ product, sizeOptions, typeOptions }: IProductInfo)
                 ) : null}
 
                 <div onClick={onAddProductToBasket}>
-                    <ItemButton price={product.price} />
+                    <ItemButton />
                 </div>
             </div>
         </>

@@ -52,6 +52,8 @@ model UserBasket {
 model UserBasketProduct {
     id Int @id @default(autoincrement())
 
+    price Int?
+
     basketId Int
     basket   UserBasket @relation(fields: [basketId], references: [id])
 
@@ -97,6 +99,8 @@ model UserOrder {
 
 model UserOrderProduct {
     id Int @id @default(autoincrement())
+
+    price Int?
 
     userOrderId Int
     userOrder   UserOrder @relation(fields: [userOrderId], references: [id])
