@@ -1,4 +1,4 @@
-import { ProductIdType } from '../../../prisma/prismaType';
+import { ProductIdType } from '../../../../prisma/prismaType';
 import { PopupItem } from './PopupItem';
 
 interface IProps {

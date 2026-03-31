@@ -10,6 +10,7 @@ import { ClearQueryBtn } from './ClearQueryBtn';
 
 import { ProductIdType } from '../../../../prisma/prismaType';
 import { Api } from '../../../../services/api-client';
+import { useStoreItems } from '@/store/BasketClientStore/BasketClientSelectors';
 
 export const HeaderInput = () => {
     const [searchQuery, setSearQuery] = React.useState<string>('');

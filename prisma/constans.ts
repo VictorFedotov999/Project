@@ -19,15 +19,6 @@ export const categories = [
     },
 ];
 
-export const filters = [
-    {
-        title: 'Можно собирать',
-    },
-    {
-        title: 'Новинки',
-    },
-];
-
 export const sorting = [
     {
         title: 'Рейтинг',
@@ -249,7 +240,7 @@ export const product = [
 
     //Напитки
     {
-        title: 'Горячий сорбет манго-чили',
+        title: 'Горячий сорбет манго',
         description: 'Замороженный напиток на палочке со спелым манго, пряным перчиком.',
         image: '/allProducts/napitkis/napitki1.avif',
         rating: 1,
@@ -258,7 +249,7 @@ export const product = [
         quantity: 1,
     },
     {
-        title: 'Горячий сорбет апельсин и облепиха',
+        title: 'Горячий сорбет апельсин ',
         description: 'Замороженный напиток на палочке с апельсином и облепихой.',
         image: '/allProducts/napitkis/napitki2.avif',
         rating: 1,
@@ -276,7 +267,7 @@ export const product = [
         quantity: 1,
     },
     {
-        title: 'Лимонад Клубничный Мохито',
+        title: 'Лимонад Клубничный',
         description: 'Клубничная вариация безалкогольного коктейля.',
         image: '/allProducts/napitkis/napitki4.avif',
         rating: 1,
@@ -285,7 +276,7 @@ export const product = [
         quantity: 1,
     },
     {
-        title: 'Санрайз апельсин-клубника',
+        title: 'Санрайз апельсин',
         description: 'Это получается апельсиновый рассвет в вашем стакане.',
         image: '/allProducts/napitkis/napitki5.avif',
         rating: 1,
@@ -433,7 +424,7 @@ export const product = [
         quantity: 1,
     },
     {
-        title: 'Чизкейк карамельный с арахисом',
+        title: 'Чизкейк карамельный ',
         description:
             'Сливочный десерт с очень карамельной начинкой, шоколадным печеньем и орехами.',
         image: '/allProducts/decerts/decert9.avif',

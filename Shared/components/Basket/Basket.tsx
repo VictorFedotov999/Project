@@ -22,9 +22,7 @@ export const Basket = ({ openBasket, onClickBasket }: IProps) => {
     if (basketProducts.length === 0) {
         return (
             <section className={openBasket === true ? 'basket active' : 'basket'}>
-                <div className='basket__container'>
-                    <BasketProductEmpty onClickBasket={onClickBasket} />
-                </div>
+                <BasketProductEmpty onClickBasket={onClickBasket} />
             </section>
         );
     }

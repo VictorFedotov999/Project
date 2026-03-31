@@ -100,8 +100,6 @@ model UserOrder {
 model UserOrderProduct {
     id Int @id @default(autoincrement())
 
-    price Int?
-
     userOrderId Int
     userOrder   UserOrder @relation(fields: [userOrderId], references: [id])
 
@@ -201,15 +199,6 @@ model TypeOption {
 }
 
 model Sorting {
-    id Int @id @default(autoincrement())
-
-    title String
-
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-}
-
-model Filter {
     id Int @id @default(autoincrement())
 
     title String

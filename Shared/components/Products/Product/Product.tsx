@@ -10,7 +10,7 @@ interface IProps {
 export const ProductItem = ({ product }: IProps) => {
     return (
         <Link href={`/prods/${product.id}`}>
-            <div className='item active-setting'>
+            <div className='item '>
                 <div className='item-bg'>
                     <Image
                         className='item-img'

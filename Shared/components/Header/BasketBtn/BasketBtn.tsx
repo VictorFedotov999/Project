@@ -4,7 +4,8 @@ import React from 'react';
 import { HeaderBtnInfo } from '../HeaderBtnInfo/HeaderBtnInfo';
 import { Basket } from '../../Basket/Basket';
 import { AuthorizationBtn } from '../../AuthorizationBtn/AuthorizationBtn';
-import { useSession, signIn } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
+import { useStoreItems } from '@/store/BasketClientStore/BasketClientSelectors';
 
 export const BasketBtn = () => {
     const { data: session, status } = useSession();
@@ -13,6 +14,8 @@ export const BasketBtn = () => {
     const onClickBasket = (open: boolean) => {
         setOpenBasket(open);
     };
+    const store = useStoreItems();
+    console.log('storeItems', store);
     if (status === 'loading') return null;
     return (
         <>

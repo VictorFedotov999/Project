@@ -1,9 +1,10 @@
+import { FieldValues, FormState, UseFormRegister } from 'react-hook-form';
 import { InputForm } from '../../../Form/input-form';
 import { Title } from '../../../title-cart';
 
 interface IProps {
-    register: any;
-    formState: any;
+    register: UseFormRegister<FieldValues>;
+    formState: FormState<FieldValues>;
 }
 
 export const PersonalInfoCart = ({ register, formState }: IProps) => {

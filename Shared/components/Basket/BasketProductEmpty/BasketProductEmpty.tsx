@@ -10,9 +10,11 @@ interface IProps {
 export const BasketProductEmpty = ({ onClickBasket }: IProps) => {
     return (
         <>
-            <div className='basket__item-empty '>
-                <EmptyInfo />
-                <EmptyBtn onClickBasket={onClickBasket} />
+            <div className='basket__container'>
+                <div className='basket__item-empty '>
+                    <EmptyInfo />
+                    <EmptyBtn onClickBasket={onClickBasket} />
+                </div>
             </div>
         </>
     );

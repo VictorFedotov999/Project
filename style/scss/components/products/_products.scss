@@ -6,7 +6,7 @@
 }
 .items {
     width: 955px;
-    gap: 50px;
+    gap: 20px;
     display: flex;
     flex-wrap: wrap;
     @include section-padding;
@@ -30,13 +30,10 @@
         transform: translateY(10px);
     }
 
-    // &-bg {
-    //     background-color: #fff7ee;
-    //     padding: 5px 0;
-    // }
     &-title {
         font-size: 22px;
         font-weight: 700;
+
         margin: 18px 0 9px;
         cursor: pointer;
 
@@ -48,7 +45,7 @@
 
     &-text {
         font-size: 14px;
-        line-height: 20px;
+        line-height: 13px;
         color: $--gray-color;
         margin-bottom: 13px;
         width: 275px;

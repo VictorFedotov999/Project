@@ -107,39 +107,32 @@ export const authOptions = {
             try {
                 if (!account) return false;
 
-                // Credentials: просто разрешаем
                 if (account.provider === 'credentials') return true;
 
-                // GitHub provider
                 if (account.provider === 'github') {
                     if (!user.email) return false;
 
-                    // Проверяем, есть ли пользователь в БД
                     let existingUser = await prisma.user.findFirst({
                         where: {
-                            OR: [{ providerId: account.providerAccountId }, { email: user.email }],
+                            email: user.email,
                         },
                     });
 
                     if (existingUser) {
-                        // Обновляем данные пользователя
                         await prisma.user.update({
                             where: { id: existingUser.id },
                             data: {
                                 name: user.name,
-                                provider: account.provider,
-                                providerId: account.providerAccountId,
                                 email: user.email,
                             },
                         });
                     } else {
-                        // Создаем нового пользователя
                         await prisma.user.create({
                             data: {
                                 email: user.email,
                                 name: user.name,
                                 password: account.providerAccountId,
-                                provider: account.provider,
+
                                 providerId: account.providerAccountId,
                                 role: 'USER',
                                 UserBasket: { create: {} },

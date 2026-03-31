@@ -3,7 +3,7 @@ import 'react-loading-skeleton/dist/skeleton.css';
 export const ProductSkeleton = () => {
     return (
         <>
-            <div className='item active-setting'>
+            <div className='item '>
                 <Skeleton className='item-img ' circle width={240} height={240} />
 
                 <h1 className='item-title'>

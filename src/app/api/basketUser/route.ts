@@ -45,7 +45,39 @@ export async function POST(req: NextRequest) {
         const userBasket = await prisma.userBasket.findFirst({ where: { userId } });
         if (!userBasket) return NextResponse.json({ error: 'Корзина не найдена' }, { status: 404 });
 
-        // Проверка существующего товара с такими же ингредиентами
+        const product = await prisma.product.findUnique({
+            where: { id: body.productId },
+            include: {
+                sizeOptions: true,
+                typeOptions: true,
+                ingredients: true,
+            },
+        });
+
+        if (!product) {
+            return NextResponse.json({ error: 'Продукт не найден' }, { status: 404 });
+        }
+
+        const sizeOption = body.sizeOptionId
+            ? await prisma.sizeOption.findUnique({ where: { id: body.sizeOptionId } })
+            : null;
+
+        const typeOption = body.typeOptionId
+            ? await prisma.typeOption.findUnique({ where: { id: body.typeOptionId } })
+            : null;
+
+        const ingredients = await prisma.ingredient.findMany({
+            where: { id: { in: ingredientIds } },
+        });
+
+        const ingredientsPrice = ingredients.reduce((sum, ing) => sum + ing.price, 0);
+        const totalPrice =
+            (product.price +
+                ingredientsPrice +
+                (sizeOption?.price ?? 0) +
+                (typeOption?.price ?? 0)) *
+            1;
+
         const existingItems = await prisma.userBasketProduct.findMany({
             where: {
                 basketId: userBasket.id,
@@ -67,15 +99,25 @@ export async function POST(req: NextRequest) {
         );
 
         if (existingItem) {
+            const newQuantity = existingItem.quantity + 1;
+            const newPrice =
+                (product.price +
+                    ingredientsPrice +
+                    (sizeOption?.price ?? 0) +
+                    (typeOption?.price ?? 0)) *
+                newQuantity;
+
             const updatedItem = await prisma.userBasketProduct.update({
                 where: { id: existingItem.id },
-                data: { quantity: { increment: 1 } },
+                data: {
+                    quantity: { increment: 1 },
+                    price: newPrice,
+                },
                 include: { product: true, sizeOption: true, typeOption: true, ingredients: true },
             });
             return NextResponse.json(updatedItem);
         }
 
-        // Создание нового товара с ингредиентами
         const basketItem = await prisma.userBasketProduct.create({
             data: {
                 basketId: userBasket.id,
@@ -83,6 +125,7 @@ export async function POST(req: NextRequest) {
                 sizeOptionId: body.sizeOptionId,
                 typeOptionId: body.typeOptionId,
                 quantity: 1,
+                price: totalPrice,
                 ingredients: {
                     connect: ingredientIds.map((id) => ({ id })),
                 },
@@ -96,23 +139,46 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ error: 'Ошибка сервера', details: error }, { status: 500 });
     }
 }
-
-// ================= PATCH =================
 export async function PATCH(req: NextRequest) {
     try {
         const body = await req.json();
-        await prisma.userBasketProduct.update({
+
+        const basketProduct = await prisma.userBasketProduct.findUnique({
             where: { id: body.productId },
-            data: { quantity: body.count },
+            include: {
+                product: true,
+                sizeOption: true,
+                typeOption: true,
+                ingredients: true,
+            },
         });
-        return NextResponse.json({ success: true });
+
+        if (!basketProduct) {
+            return NextResponse.json({ error: 'Товар не найден' }, { status: 404 });
+        }
+
+        const basePrice = basketProduct.product?.price ?? 0;
+        const sizePrice = basketProduct.sizeOption?.price ?? 0;
+        const typePrice = basketProduct.typeOption?.price ?? 0;
+        const ingredientsPrice = basketProduct.ingredients.reduce((sum, ing) => sum + ing.price, 0);
+
+        const newPrice = (basePrice + ingredientsPrice + sizePrice + typePrice) * body.count;
+
+        const updatedItem = await prisma.userBasketProduct.update({
+            where: { id: body.productId },
+            data: {
+                quantity: body.count,
+                price: newPrice,
+            },
+        });
+
+        return NextResponse.json({ success: true, price: newPrice });
     } catch (error) {
         console.error('PATCH Error:', error);
         return NextResponse.json({ error: 'Ошибка сервера' }, { status: 500 });
     }
 }
 
-// ================= DELETE =================
 export async function DELETE(req: NextRequest) {
     try {
         const session = await getServerSession(authOptions);

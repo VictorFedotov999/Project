@@ -20,9 +20,3 @@ export type BasketProductType = Prisma.UserBasketGetPayload<{
         };
     };
 }>;
-
-export type OrderProductType = Prisma.UserOrderGetPayload<{
-    include: {
-        userOrderProduct: true;
-    };
-}>;

@@ -31,7 +31,6 @@ export const FormCart = () => {
     const { register, formState, handleSubmit } = methods;
 
     const onSubmit = async (data: IForm) => {
-        console.log(data);
         try {
             const response = await fetch(API_ORDER, {
                 method: 'POST',

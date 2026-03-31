@@ -1,4 +1,3 @@
-import { product } from './../../../prisma/constans';
 import { Ingredient, Product, SizeOption, TypeOption, UserBasket } from '@prisma/client';
 
 export interface IActions {
@@ -35,7 +34,6 @@ export interface IBasketItemsStore {
     ingredients: Array<{ title: string; price: number }>;
 }
 
-//продукт с полями
 export interface IProduct extends Product {
     ingredient: Ingredient[];
     sizeOption: SizeOption[];

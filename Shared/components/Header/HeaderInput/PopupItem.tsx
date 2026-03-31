@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { ProductIdType } from '../../../prisma/prismaType';
+import { ProductIdType } from '../../../../prisma/prismaType';
 
 interface IProps {
     product: ProductIdType;

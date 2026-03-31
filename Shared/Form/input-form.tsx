@@ -1,10 +1,12 @@
 'use client';
 
+import { FieldValues, UseFormRegister } from 'react-hook-form';
+
 interface IInput {
     type: string;
     placeholder: string;
     error: any;
-    register: any;
+    register: UseFormRegister<FieldValues>;
     regName: string;
 }
 

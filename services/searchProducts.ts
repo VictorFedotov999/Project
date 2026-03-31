@@ -1,4 +1,4 @@
-import { API_PRODUCTS, axionsInstatce } from './instance';
+import { axionsInstatce } from './instance';
 import { ProductIdType } from '../prisma/prismaType';
 
 export const searchProduct = async (query: string): Promise<ProductIdType[]> => {

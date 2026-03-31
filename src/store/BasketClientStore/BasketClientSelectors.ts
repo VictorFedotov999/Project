@@ -7,8 +7,6 @@ export const useStoreTotalCost = () => useProductBasketClientStore((state) => st
 export const useStoreProductCount = () =>
     useProductBasketClientStore((state) => state.productCount);
 
-//___________________________________________________________//
-
 export const useFetchCartItems = () => useProductBasketClientStore.getState().fetchCartItems();
 
 export const useAddCartItem = (value: { productItemId: number; quantity: number }) =>

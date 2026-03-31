@@ -1,10 +1,11 @@
 'use client';
+import { FieldValues, FormState, UseFormRegister } from 'react-hook-form';
 import { Title } from '../../../title-cart';
 import { SearchAddras } from './SearchAddras';
 
 interface IProps {
-    register: any;
-    formState: any;
+    register: UseFormRegister<FieldValues>;
+    formState: FormState<FieldValues>;
 }
 
 export const DeliveryCart = ({ register, formState }: IProps) => {

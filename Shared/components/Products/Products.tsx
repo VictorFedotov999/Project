@@ -21,6 +21,7 @@ export const Products = () => {
 
     React.useEffect(() => {
         setIsLoading(true);
+
         Api.filteringProducts(category, sort, ingredients, size, type)
             .then((item) => {
                 setProducts(item);
@@ -40,11 +41,9 @@ export const Products = () => {
     return (
         <>
             <div className='items'>
-                <div className='items '>
-                    {products.map((product) => (
-                        <ItemProduct key={product.id} product={product} />
-                    ))}
-                </div>
+                {products.map((product) => (
+                    <ItemProduct key={product.id} product={product} />
+                ))}
             </div>
         </>
     );

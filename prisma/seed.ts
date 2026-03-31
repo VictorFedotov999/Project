@@ -1,12 +1,4 @@
-import {
-    categories,
-    product,
-    ingredients,
-    filters,
-    sorting,
-    sizeOption,
-    typeOption,
-} from './constans';
+import { categories, product, ingredients, sorting, sizeOption, typeOption } from './constans';
 import { prisma } from './prisma-client';
 
 async function seed() {
@@ -18,7 +10,6 @@ async function seed() {
     await prisma.product.deleteMany();
     await prisma.category.deleteMany();
     await prisma.sorting.deleteMany();
-    await prisma.filter.deleteMany();
 
     await prisma.category.createMany({
         data: categories,
@@ -26,10 +17,6 @@ async function seed() {
 
     await prisma.sorting.createMany({
         data: sorting,
-    });
-
-    await prisma.filter.createMany({
-        data: filters,
     });
 
     await prisma.sizeOption.createMany({

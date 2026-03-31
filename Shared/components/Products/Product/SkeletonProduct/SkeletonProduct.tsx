@@ -8,7 +8,6 @@ export const SkeletonProduct = () => {
             {skeletonProduct.map((_, index: number) => (
                 <ProductSkeleton key={`${_}-${index}`} />
             ))}
-            ;
         </div>
     );
 };
